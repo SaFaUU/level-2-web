@@ -59,7 +59,7 @@ const createStudentZodValidationSchema = z.object({
         .refine((value) => value === 'male' || value === 'female', {
           message: '{VALUE} is not supported',
         }),
-      dateOfBirth: z.string(),
+      dateOfBirth: z.date().optional(),
       email: z
         .string()
         .email({ message: '{VALUE} is not a valid email' })
