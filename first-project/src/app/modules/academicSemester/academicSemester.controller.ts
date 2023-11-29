@@ -1,19 +1,60 @@
 import { RequestHandler } from 'express'
-import { UserServices } from './user.service'
 import sendResponse from '../../utils/sendResponse'
 import httpStatus from 'http-status'
 import catchAsync from '../../utils/catchAsync'
+import { AcademicSemesterServices } from './academicSemester.service'
 
-const createAcademicSemester: RequestHandler = catchAsync(
-  async (req, res, next) => {
-    // const { password, student: studentData } = req.body
-    // const result = await UserServices.createStudentIntoDB(password, studentData)
+const createAcademicSemester: RequestHandler = catchAsync(async (req, res) => {
+  const result = await AcademicSemesterServices.createAcademicSemesterIntoDB(
+    req.body,
+  )
+
+  //send response
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic Semester is created succesfully',
+    data: result,
+  })
+})
+const getAcademicSemester: RequestHandler = catchAsync(async (req, res) => {
+  const result = await AcademicSemesterServices.getAcademicSemesterFromDB()
+
+  //send response
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic Semester is fetched succesfully',
+    data: result,
+  })
+})
+const getAcademicSemesterById: RequestHandler = catchAsync(async (req, res) => {
+  const id = req.params.semesterId
+  const result = await AcademicSemesterServices.getAcademicSemesterIDFromDB(
+    id as string,
+  )
+
+  //send response
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic Semester is fetched succesfully',
+    data: result,
+  })
+})
+const updateAcademicSemesterById: RequestHandler = catchAsync(
+  async (req, res) => {
+    const id = req.params.semesterId
+    const result = await AcademicSemesterServices.updateAcademicSemesterInDB(
+      id as string,
+      req.body,
+    )
 
     //send response
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Student is created succesfully',
+      message: 'Academic Semester is updated succesfully',
       data: result,
     })
   },
@@ -21,4 +62,7 @@ const createAcademicSemester: RequestHandler = catchAsync(
 
 export const AcademicSemesterControllers = {
   createAcademicSemester,
+  getAcademicSemester,
+  getAcademicSemesterById,
+  updateAcademicSemesterById,
 }

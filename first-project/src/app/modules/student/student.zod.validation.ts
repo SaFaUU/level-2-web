@@ -59,7 +59,7 @@ const createStudentZodValidationSchema = z.object({
         .refine((value) => value === 'male' || value === 'female', {
           message: '{VALUE} is not supported',
         }),
-      dateOfBirth: z.date().optional(),
+      dateOfBirth: z.string().optional(),
       email: z
         .string()
         .email({ message: '{VALUE} is not a valid email' })
@@ -85,6 +85,7 @@ const createStudentZodValidationSchema = z.object({
         .min(1, { message: 'Permanent Address is required' }),
       guardian: guardianValidationSchema,
       localGuardian: localGuardianValidationSchema,
+      admissionSemester: z.string(),
       profileImg: z.string(),
     }),
   }),
