@@ -7,6 +7,9 @@ import {
   TUserName,
 } from './student.interface'
 import validator from 'validator'
+import AppError from '../../errors/AppError'
+import httpStatus from 'http-status'
+import { User } from '../user/user.model'
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -166,6 +169,10 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       type: Boolean,
       default: false,
     },
+    academicDepartment: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicDepartment',
+    },
   },
   {
     toJSON: {
@@ -183,6 +190,15 @@ studentSchema.pre('findOne', function (next) {
   this.find({ isDeleted: { $ne: true } })
   next()
 })
+studentSchema.pre('findOneAndUpdate', async function (next) {
+  const query = this.getQuery()
+  const isStudentExists = await Student.findOne(query)
+  if (!isStudentExists) {
+    throw new AppError(httpStatus.NOT_FOUND, 'This Student does not exist')
+  }
+  next()
+})
+
 studentSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } })
   next()
@@ -195,7 +211,7 @@ studentSchema.virtual('fullName').get(function () {
 
 //creating a custom static method
 studentSchema.statics.isUserExists = async function (id: string) {
-  const existingUser = await Student.findOne({ id })
+  const existingUser = await User.findOne({ id })
   return existingUser
 }
 
