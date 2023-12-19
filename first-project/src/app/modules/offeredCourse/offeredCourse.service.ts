@@ -7,6 +7,7 @@ import { AcademicFaculty } from '../academicFaculty/academicFaculty.model'
 import { AcademicDepartment } from '../academicDepartment/academicDepartment.model'
 import { Course } from '../course/course.model'
 import { Faculty } from '../faculty/faculty.model'
+import { hasTimeConflict } from './offeredCourse.utils'
 
 const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   const {
@@ -97,18 +98,12 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
     endTime,
   }
 
-  assignedSchedules.forEach((schedule) => {
-    const existingStartTime = new Date(`1970-01-01T${schedule.startTime}:00`)
-    const existingEndTime = new Date(`1970-01-01T${schedule.endTime}:00`)
-    const newStartTime = new Date(`1970-01-01T${newSchedule.startTime}:00`)
-    const newEndTime = new Date(`1970-01-01T${newSchedule.endTime}:00`)
-    if (newStartTime < existingEndTime && newEndTime > existingStartTime) {
-      throw new AppError(
-        httpStatus.CONFLICT,
-        'This faculty is not available at that time! Choose another time or day',
-      )
-    }
-  })
+  if (hasTimeConflict(assignedSchedules, newSchedule)) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'Time Conflict with other offered course for the faculty',
+    )
+  }
   const academicSemester = isSemesterRegistrationExists.academicSemester
 
   const result = await OfferedCourse.create({
@@ -130,11 +125,65 @@ const getSingleOfferedCourseFromDB = async (id: string) => {
 
 const updateOfferedCourseIntoDB = async (
   id: string,
-  payload: TOfferedCourse,
+  payload: Pick<TOfferedCourse, 'faculty' | 'days' | 'startTime' | 'endTime'>,
 ) => {
+  const { faculty, days, startTime, endTime } = payload
+  const isOfferedCourseExists = await OfferedCourse.findById(id)
+  if (!isOfferedCourseExists) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Offered Course not found')
+  }
+
+  const isFacultyExists = await Faculty.findById(faculty)
+  if (!isFacultyExists) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Faculty not found in the database',
+    )
+  }
+
+  const semesterRegistration = isOfferedCourseExists.semesterRegistration
+  // get the schedules of the faculties
+  const semesterRegistrationStatus =
+    await SemesterRegistration.findById(semesterRegistration)
+  if (semesterRegistrationStatus?.status !== 'UPCOMING') {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `You can't update the offered course as it is ${semesterRegistrationStatus?.status}`,
+    )
+  }
+  const assignedSchedules = await OfferedCourse.find({
+    semesterRegistration,
+    faculty,
+    days: { $in: days },
+  }).select('days startTime endTime')
+
+  const newSchedule = {
+    days,
+    startTime,
+    endTime,
+  }
+
+  if (hasTimeConflict(assignedSchedules, newSchedule)) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'Time Conflict with other offered course for the faculty',
+    )
+  }
   const result = await OfferedCourse.findOneAndUpdate({ _id: id }, payload, {
     new: true,
   })
+  return result
+}
+
+const deleteOfferedCourseFromDB = async (id: string) => {
+  const semesterRegistrationStatus = await SemesterRegistration.findById(id)
+  if (semesterRegistrationStatus?.status !== 'UPCOMING') {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `You can't delete the offered course as it is ${semesterRegistrationStatus?.status}`,
+    )
+  }
+  const result = await OfferedCourse.findByIdAndDelete(id)
   return result
 }
 
@@ -143,4 +192,5 @@ export const offeredCourseService = {
   getAllOfferedCoursesFromDB,
   getSingleOfferedCourseFromDB,
   updateOfferedCourseIntoDB,
+  deleteOfferedCourseFromDB,
 }

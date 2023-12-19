@@ -22,5 +22,6 @@ router
     ),
     offeredCourseController.createOfferedCourse,
   )
+  .delete('/:id', offeredCourseController.deleteOfferedCourse)
 
 export const offeredCourseRoutes = router
