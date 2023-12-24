@@ -3,11 +3,17 @@ import { UserServices } from './user.service'
 import sendResponse from '../../utils/sendResponse'
 import httpStatus from 'http-status'
 import catchAsync from '../../utils/catchAsync'
-import AppError from '../../errors/AppError'
 
 const createStudent: RequestHandler = catchAsync(async (req, res) => {
+  console.log(req.file)
+
   const { password, student: studentData } = req.body
-  const result = await UserServices.createStudentIntoDB(password, studentData)
+
+  const result = await UserServices.createStudentIntoDB(
+    req.file,
+    password,
+    studentData,
+  )
 
   //send response
   sendResponse(res, {
