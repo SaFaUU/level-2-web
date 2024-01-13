@@ -1,17 +1,34 @@
 import React from "react";
 import TodoCard from "./TodoCard";
+import { Button } from "../ui/button";
+import AddTodoModal from "./AddTodoModal";
+import TodoFilter from "./TodoFilter";
+import { useAppSelector } from "@/redux/hook";
+import { useGetTodosQuery } from "@/redux/api/api";
 
 const TodoContainer = () => {
+  // From Local State
+  // const { todos } = useAppSelector((state) => state.todos);
+
+  // From Server
+  const { data: todos, isLoading, isError } = useGetTodosQuery({});
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div>
-      <div>
-        <button>Add Todo</button>
-        <button>Filter</button>
+      <div className="flex justify-between mb-5">
+        <AddTodoModal></AddTodoModal>
+        <TodoFilter></TodoFilter>
       </div>
-      <div className="bg-red-500 w-full h-full rounded-xl p-5 space-y-3">
-        <TodoCard></TodoCard>
-        <TodoCard></TodoCard>
-        <TodoCard></TodoCard>
+      <div className="bg-primary-gradient w-full h-full rounded-xl  p-[5px]">
+        <div className="bg-white  p-5 w-full h-full  rounded-lg space-y-3">
+          {todos?.data?.map((todo) => (
+            <TodoCard key={todo.id} {...todo}></TodoCard>
+          ))}
+        </div>
         {/* <div className="bg-white p-5 flex justify-center items-center text-2xl font-semibold">
           <p>There is no Task Pending</p>
         </div> */}
