@@ -8,9 +8,16 @@ type TTodoCardProps = {
   title: string;
   description: string;
   isCompleted?: boolean;
+  priority: string;
 };
 
-const TodoCard = ({ id, title, description, isCompleted }: TTodoCardProps) => {
+const TodoCard = ({
+  id,
+  title,
+  description,
+  isCompleted,
+  priority,
+}: TTodoCardProps) => {
   const dispatch = useAppDispatch();
 
   const toggleState = () => {
@@ -24,17 +31,29 @@ const TodoCard = ({ id, title, description, isCompleted }: TTodoCardProps) => {
           name="complete"
           id="complete"
           onChange={toggleState}
+          className="mr-3"
         />
-        <p className="font-semibold">{title}</p>
-        {/* <p>Time</p> */}
-        <div>
+        <p className="font-semibold flex-1">{title}</p>
+        <div className="flex-1 flex items-center gap-2">
+          <div
+            className={`size-3 rounded-full ${
+              priority === "High"
+                ? "bg-red-500"
+                : priority === "Medium"
+                ? "bg-yellow-500"
+                : "bg-green-500"
+            }`}
+          ></div>
+          <p>{priority}</p>
+        </div>
+        <div className="flex-1">
           {isCompleted ? (
             <p className="text-green-500">Done</p>
           ) : (
             <p className="text-red-500">Pending</p>
           )}
         </div>
-        <p>{description}</p>
+        <p className="flex-[2]">{description}</p>
         <div className="space-x-5">
           <Button
             className="bg-red-500"
