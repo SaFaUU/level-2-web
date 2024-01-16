@@ -8,7 +8,8 @@ const TodoContainer = () => {
   // const { todos } = useAppSelector((state) => state.todos);
 
   // From Server
-  const { data: todos, isLoading, isError } = useGetTodosQuery(undefined);
+  const { data: todos, isLoading, isError } = useGetTodosQuery(undefined, {});
+  console.log(todos);
 
   if (isLoading) {
     return <p>Loading...</p>;

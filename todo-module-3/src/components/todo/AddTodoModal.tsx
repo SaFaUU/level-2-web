@@ -14,10 +14,22 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { useAppDispatch } from "@/redux/hook";
 import { addTodo } from "@/redux/features/todoSlice";
 import { useAddTodoMutation } from "@/redux/api/api";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const AddTodoModal = () => {
   const [task, setTask] = useState("");
   const [description, setdescription] = useState("");
+  const [priority, setPriority] = useState("");
+  console.log(priority);
+
   // const dispatch = useAppDispatch();
 
   const [addTodo, { data, isLoading, isSuccess, isError }] =
@@ -30,7 +42,8 @@ const AddTodoModal = () => {
     const taskDetails = {
       title: task,
       description,
-      priority: "High",
+      priority,
+      isCompleted: false,
     };
     // dispatch(addTodo(taskDetails));
     addTodo(taskDetails);
@@ -70,6 +83,22 @@ const AddTodoModal = () => {
                 id="description"
                 className="col-span-3"
               />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label className="text-right">Priority</Label>
+              <Select onValueChange={(value) => setPriority(value)}>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select a fruit" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Priority</SelectLabel>
+                    <SelectItem value="High">High</SelectItem>
+                    <SelectItem value="Medium">Medium</SelectItem>
+                    <SelectItem value="Low">Low</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <div className="flex justify-end">
