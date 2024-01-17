@@ -2,10 +2,10 @@ import React from "react";
 import { Button } from "../ui/button";
 import { useAppDispatch } from "@/redux/hook";
 import { removeTodo, toggleComplete } from "@/redux/features/todoSlice";
-import { useDeleteTodoMutation } from "@/redux/api/api";
+import { useDeleteTodoMutation, useUpdateTodoMutation } from "@/redux/api/api";
 
 type TTodoCardProps = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   isCompleted?: boolean;
@@ -19,14 +19,26 @@ const TodoCard = ({
   isCompleted,
   priority,
 }: TTodoCardProps) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const [deleteTodo, { isLoading, isSuccess, isError }] =
     useDeleteTodoMutation();
+  const [updateTodo] = useUpdateTodoMutation();
 
   const toggleState = () => {
-    dispatch(toggleComplete(_id));
+    // dispatch(toggleComplete(_id));
+
+    const taskData = {
+      title,
+      description,
+      isCompleted: !isCompleted,
+      priority,
+    };
+    const options = {
+      id: _id,
+      data: taskData,
+    };
+    updateTodo(options);
   };
-  console.log(_id);
   return (
     <div>
       <div className="bg-white rounded-md flex justify-between items-center p-3 border">
@@ -36,6 +48,7 @@ const TodoCard = ({
           id="complete"
           onChange={toggleState}
           className="mr-3"
+          defaultChecked={isCompleted}
         />
         <p className="font-semibold flex-1">{title}</p>
         <div className="flex-1 flex items-center gap-2">
