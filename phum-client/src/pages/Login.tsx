@@ -1,35 +1,32 @@
-import { Button } from "antd";
+import { Button, Row } from "antd";
 import React from "react";
-import { useForm, FieldValues } from "react-hook-form";
+import { useForm, FieldValues, useFormContext } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { TUser, setUser } from "../redux/features/auth/authSlice";
 import { verifyToken } from "../utils/verifyToken";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import PHForm from "../components/form/PHForm";
+import PHInput from "../components/form/PHInput";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      id: "A-0001",
-      password: "admin1234",
-    },
-  });
+  const defaultValues = {
+    userId: "A-0001",
+    password: "admin1234",
+  };
 
   const [login, { error }] = useLoginMutation();
-  console.log("error", error);
 
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Logging in");
     try {
-      console.log(data);
       const userInfo = {
-        id: data.id,
+        id: data.userId,
         password: data.password,
       };
-
       const res = await login(userInfo).unwrap();
 
       const user = verifyToken(res.data.accessToken) as TUser;
@@ -42,19 +39,13 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="id">ID:</label>
-        <input type="text" id="id" {...register("id")} />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input type="text" id="password" {...register("password")} />
-      </div>
-      <Button type="primary" htmlType="submit">
-        Login
-      </Button>
-    </form>
+    <Row justify="center" align="middle" style={{ height: "100vh" }}>
+      <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
+        <PHInput type={"text"} name={"userId"} label={"ID: "} />
+        <PHInput type={"text"} name={"password"} label={"Password: "} />
+        <Button htmlType="submit">Login</Button>
+      </PHForm>
+    </Row>
   );
 };
 
