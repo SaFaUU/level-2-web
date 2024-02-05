@@ -10,6 +10,7 @@ const router = express.Router()
 router
   .post(
     '/create-academic-semester',
+    auth(USER_ROLE.admin, USER_ROLE.superAdmin),
     validateRequest(
       AcademicSemesterValidations.createAcademicSemesterValidationSchema,
     ),
@@ -17,11 +18,17 @@ router
   )
   .get(
     '/',
-    auth(USER_ROLE.admin),
+    auth(
+      USER_ROLE.admin,
+      USER_ROLE.superAdmin,
+      USER_ROLE.faculty,
+      USER_ROLE.student,
+    ),
     AcademicSemesterControllers.getAcademicSemester,
   )
   .patch(
     '/:facultyId',
+    auth(USER_ROLE.admin, USER_ROLE.superAdmin),
     validateRequest(
       AcademicSemesterValidations.updateAcademicSemesterValidationSchema,
     ),

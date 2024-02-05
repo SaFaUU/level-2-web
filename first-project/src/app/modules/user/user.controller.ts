@@ -58,10 +58,6 @@ const createAdmin = catchAsync(async (req, res) => {
   })
 })
 const getMe = catchAsync(async (req, res) => {
-  // const token = req.headers.authorization
-  // if (!token) {
-  //   throw new AppError(httpStatus.UNAUTHORIZED, 'Please provide a valid token')
-  // }
   const { userId, role } = req.user
 
   const result = await UserServices.getMe(userId, role)
