@@ -8,6 +8,8 @@ import { AcademicDepartment } from '../academicDepartment/academicDepartment.mod
 import { Course } from '../course/course.model'
 import { Faculty } from '../faculty/faculty.model'
 import { hasTimeConflict } from './offeredCourse.utils'
+import QueryBuilder from '../../builder/QueryBuilder'
+import Student from '../student/student.model'
 
 const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   const {
@@ -114,8 +116,50 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
 }
 
 const getAllOfferedCoursesFromDB = async (query: any) => {
-  const result = await OfferedCourse.find(query)
-  return result
+  const offeredCourseQuery = new QueryBuilder(OfferedCourse.find(), query)
+    .filter()
+    .sort()
+    .fields()
+    .paginate()
+
+  const result = await offeredCourseQuery.modelQuery
+  const meta = await offeredCourseQuery.countTotal()
+  return {
+    meta,
+    result,
+  }
+}
+
+const getMyOfferedCoursesFromDB = async (userId: string) => {
+  // find student
+  const student = await Student.findOne({ id: userId })
+  if (!student) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Student not found')
+  }
+  // find current ongoing semester
+  const currentOngoingRegistrationSemester = await SemesterRegistration.findOne(
+    {
+      status: 'ONGOING',
+    },
+  )
+
+  if (!currentOngoingRegistrationSemester) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Semester Registration not found')
+  }
+
+  const result = await OfferedCourse.aggregate([
+    {
+      $match: {
+        semesterRegistration: currentOngoingRegistrationSemester?._id,
+        academicFaculty: student.academicFaculty,
+        academicDepartment: student.academicDepartment,
+      },
+    },
+  ])
+
+  return {
+    result,
+  }
 }
 
 const getSingleOfferedCourseFromDB = async (id: string) => {
@@ -190,6 +234,7 @@ const deleteOfferedCourseFromDB = async (id: string) => {
 export const offeredCourseService = {
   createOfferedCourseIntoDB,
   getAllOfferedCoursesFromDB,
+  getMyOfferedCoursesFromDB,
   getSingleOfferedCourseFromDB,
   updateOfferedCourseIntoDB,
   deleteOfferedCourseFromDB,
