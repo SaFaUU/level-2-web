@@ -13,7 +13,7 @@ const createEnrolledCourse = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Enrolled Course is created succesfully',
+    message: 'Student is enrolled succesfully',
     data: result,
   })
 })
@@ -28,7 +28,7 @@ const updateEnrolledCourseMarks = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Enrolled Course is updated succesfully',
+    message: 'Student marks are updated succesfully',
     data: result,
   })
 })
