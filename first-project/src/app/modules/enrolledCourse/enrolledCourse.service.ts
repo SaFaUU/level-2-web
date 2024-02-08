@@ -9,6 +9,7 @@ import { SemesterRegistration } from '../semesterRegistration/semesterRegistrati
 import { Course } from '../course/course.model'
 import { Faculty } from '../faculty/faculty.model'
 import { calculateGradeAndPoints } from './enrolledCourse.utils'
+import QueryBuilder from '../../builder/QueryBuilder'
 
 const createEnrolledCourseIntoDB = async (
   userId: string,
@@ -233,8 +234,34 @@ const getAllEnrolledCoursesFromDB = async () => {
   return result
 }
 
+const getMyEnrolledCoursesFromDB = async (
+  userId: string,
+  query: Record<string, unknown>,
+) => {
+  const student = await Student.findOne({ id: userId })
+  if (!student) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Student not found')
+  }
+
+  const enrolledCourseQuery = new QueryBuilder(
+    EnrolledCourse.find({ student: student._id }).populate(
+      'semesterRegistration academicSemester academicDepartment offeredCourse course student faculty academicFaculty',
+    ),
+    query,
+  )
+    .filter()
+    .sort()
+    .paginate()
+    .fields()
+
+  const result = await enrolledCourseQuery.modelQuery
+  const meta = await enrolledCourseQuery.countTotal()
+  return { meta, result }
+}
+
 export const EnrolledCourseService = {
   createEnrolledCourseIntoDB,
   updateEnrolledCourseMarksIntoDB,
   getAllEnrolledCoursesFromDB,
+  getMyEnrolledCoursesFromDB,
 }

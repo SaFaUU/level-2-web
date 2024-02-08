@@ -28,7 +28,8 @@ const getAllAcademicDepartments: RequestHandler = catchAsync(
       statusCode: httpStatus.OK,
       success: true,
       message: 'Academic Departments are fetched succesfully',
-      data: result,
+      meta: result.meta,
+      data: result.data,
     })
   },
 )

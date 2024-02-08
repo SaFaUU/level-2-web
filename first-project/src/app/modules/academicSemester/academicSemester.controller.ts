@@ -25,7 +25,8 @@ const getAcademicSemester: RequestHandler = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Academic Semester is fetched succesfully',
-    data: result,
+    meta: result.meta,
+    data: result.data,
   })
 })
 const getAcademicSemesterById: RequestHandler = catchAsync(async (req, res) => {

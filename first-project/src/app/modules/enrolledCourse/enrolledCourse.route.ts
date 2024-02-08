@@ -31,4 +31,10 @@ router.get(
   EnrolledCourseController.getEnrolledCourses,
 )
 
+router.get(
+  '/my-enrolled-courses',
+  auth(USER_ROLE.student),
+  EnrolledCourseController.getMyEnrolledCourses,
+)
+
 export const EnrolledCourseRoutes = router
