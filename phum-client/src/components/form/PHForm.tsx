@@ -1,3 +1,4 @@
+import { Form } from "antd";
 import React from "react";
 import {
   FieldValues,
@@ -26,7 +27,9 @@ const PHForm = ({ onSubmit, children, defaultValues }: TFormProps) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>;
+      <Form onFinish={methods.handleSubmit(onSubmit)} layout="vertical">
+        {children}
+      </Form>
     </FormProvider>
   );
 };
