@@ -1,24 +1,24 @@
-import { Select, Space } from "antd";
+import { Select } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import React from "react";
+import { Controller } from "react-hook-form";
 
-const PHSelect = ({ label }) => {
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-  };
+type TPHSelectProps = {
+  label: string;
+  name: string;
+  options: { value: string; label: string; disabled?: boolean }[];
+};
+
+const PHSelect = ({ label, name, options }: TPHSelectProps) => {
   return (
-    <FormItem label={label}>
-      <Select
-        style={{ width: "100%" }}
-        onChange={handleChange}
-        options={[
-          { value: "jack", label: "Jack" },
-          { value: "lucy", label: "Lucy" },
-          { value: "Yiminghe", label: "yiminghe" },
-          { value: "disabled", label: "Disabled", disabled: true },
-        ]}
-      />
-    </FormItem>
+    <Controller
+      name={name}
+      render={({ field }) => (
+        <FormItem label={label}>
+          <Select style={{ width: "100%" }} {...field} options={options} />
+        </FormItem>
+      )}
+    />
   );
 };
 

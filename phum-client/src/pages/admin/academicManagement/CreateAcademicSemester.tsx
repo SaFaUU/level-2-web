@@ -1,6 +1,5 @@
 import React from "react";
 import PHForm from "../../../components/form/PHForm";
-import PHInput from "../../../components/form/PHInput";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { Button, Col, Flex } from "antd";
 import PHSelect from "../../../components/form/PHSelect";
@@ -9,13 +8,13 @@ const CreateAcademicSemester = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
     console.log(data);
   };
+
+  const nameOptions = [{}];
   return (
     <Flex justify="center" align="middle">
       <Col span={6}>
         <PHForm onSubmit={onSubmit}>
-          <PHInput type="text" name="name" label="name" />
-          <PHInput type="text" name="code" label="year" />
-          <PHSelect label={name}></PHSelect>
+          <PHSelect label="Name" name="name"></PHSelect>
           <Button htmlType="submit">Submit</Button>
         </PHForm>
       </Col>
