@@ -3,6 +3,9 @@ import PHForm from "../../../components/form/PHForm";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { Button, Col, Flex } from "antd";
 import PHSelect from "../../../components/form/PHSelect";
+import { monthOptions } from "../../../constants/global";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { academicSemesterSchema } from "../../../schemas/academicManagement.schema";
 
 const nameOptions = [
   {
@@ -19,12 +22,23 @@ const nameOptions = [
   },
 ];
 
+const currentYear = new Date().getFullYear();
+const yearOptions = [0, 1, 2, 3, 4, 5].map((year) => {
+  return {
+    value: `${currentYear + year}`,
+    label: `${currentYear + year}`,
+  };
+});
+
 const CreateAcademicSemester = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
     const name = nameOptions[Number(data?.name) - 1]?.label;
     const semesterData = {
       name,
       code: data.name,
+      year: data.year,
+      startMonth: data.startMonth,
+      endMonth: data.endMonth,
     };
 
     console.log(semesterData);
@@ -33,18 +47,21 @@ const CreateAcademicSemester = () => {
   return (
     <Flex justify="center" align="middle" style={{ height: "200vh" }}>
       <Col span={6}>
-        <PHForm onSubmit={onSubmit}>
+        <PHForm
+          onSubmit={onSubmit}
+          resolver={zodResolver(academicSemesterSchema)}
+        >
           <PHSelect label="Name" name="name" options={nameOptions}></PHSelect>
-          <PHSelect label="Year" name="year" options={nameOptions}></PHSelect>
+          <PHSelect label="Year" name="year" options={yearOptions}></PHSelect>
           <PHSelect
             label="Start Month"
             name="startMonth"
-            options={nameOptions}
+            options={monthOptions}
           ></PHSelect>
           <PHSelect
             label="End Month"
             name="endMonth"
-            options={nameOptions}
+            options={monthOptions}
           ></PHSelect>
           <Button htmlType="submit">Submit</Button>
         </PHForm>
