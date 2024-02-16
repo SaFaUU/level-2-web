@@ -1,6 +1,9 @@
 import httpStatus from 'http-status'
 import AppError from '../../errors/AppError'
-import { academicSemesterNameCodeMapper } from './academicSemester.constants'
+import {
+  AcademicSemesterSearchableFields,
+  academicSemesterNameCodeMapper,
+} from './academicSemester.constants'
 import { TAcademicSemester } from './academicSemester.interface'
 import { AcademicSemester } from './academicSemester.model'
 import QueryBuilder from '../../builder/QueryBuilder'
@@ -12,8 +15,9 @@ const createAcademicSemesterIntoDB = async (payload: TAcademicSemester) => {
   const result = await AcademicSemester.create(payload)
   return result
 }
-const getAcademicSemesterFromDB = async () => {
-  const academicSemesterQuery = new QueryBuilder(AcademicSemester.find({}), {})
+const getAcademicSemesterFromDB = async (query: Record<string, unknown>) => {
+  const academicSemesterQuery = new QueryBuilder(AcademicSemester.find(), query)
+    .search(AcademicSemesterSearchableFields)
     .filter()
     .sort()
     .fields()

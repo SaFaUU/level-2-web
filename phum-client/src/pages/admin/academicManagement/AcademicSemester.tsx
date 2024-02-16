@@ -1,20 +1,25 @@
 import React from "react";
 import { useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
-import { Table, TableColumnsType, TableProps } from "antd";
+import { Button, Table, TableColumnsType, TableProps } from "antd";
+import { TAcademicSemester } from "../../../types/academicManagement.type";
+import { TQueryParam } from "../../../types";
 
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: number;
-  address: string;
-}
+export type TTableData = Pick<
+  TAcademicSemester,
+  "name" | "year" | "startMonth" | "endMonth"
+>;
 
 const AcademicSemester = () => {
-  const { data: semesterData } = useGetAllSemestersQuery({});
+  const [params, setParams] = React.useState<TQueryParam[] | undefined>([]);
+  const {
+    data: semesterData,
+    isLoading,
+    isFetching,
+  } = useGetAllSemestersQuery(params);
 
   const tableData = semesterData?.data?.map(
     ({ _id, name, startMonth, endMonth, year }) => ({
-      _id,
+      key: _id,
       name,
       startMonth,
       endMonth,
@@ -22,62 +27,100 @@ const AcademicSemester = () => {
     })
   );
 
-  const columns: TableColumnsType<DataType> = [
+  const columns: TableColumnsType<TTableData> = [
     {
       title: "Name",
       dataIndex: "name",
+      key: "name",
       filters: [
         {
-          text: "Joe",
-          value: "Joe",
+          text: "Autumn",
+          value: "Autumn",
         },
         {
-          text: "Jim",
-          value: "Jim",
+          text: "Summer",
+          value: "Summer",
         },
         {
-          text: "Submenu",
-          value: "Submenu",
-          children: [
-            {
-              text: "Green",
-              value: "Green",
-            },
-            {
-              text: "Black",
-              value: "Black",
-            },
-          ],
+          text: "Fall",
+          value: "Fall",
         },
       ],
     },
     {
       title: "Year",
       dataIndex: "year",
+      key: "year",
+      filters: [
+        {
+          text: "2024",
+          value: "2024",
+        },
+        {
+          text: "2025",
+          value: "2025",
+        },
+        {
+          text: "2026",
+          value: "2026",
+        },
+      ],
     },
     {
       title: "Start Month",
       dataIndex: "startMonth",
+      key: "startMonth",
     },
     {
       title: "End Month",
       dataIndex: "endMonth",
+      key: "endMonth",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: () => (
+        <div>
+          <Button>Update</Button>
+        </div>
+      ),
     },
   ];
 
-  const onChange: TableProps<DataType>["onChange"] = (
-    pagination,
+  const onChange: TableProps<TTableData>["onChange"] = (
+    _pagination,
     filters,
-    sorter,
+    _sorter,
     extra
   ) => {
-    console.log("params", pagination, filters, sorter, extra);
+    if (extra.action === "filter") {
+      const queryParams: TQueryParam[] = [];
+      filters.name?.forEach((item) =>
+        queryParams.push({
+          name: "name",
+          value: item,
+        })
+      );
+
+      filters.year?.forEach((item) =>
+        queryParams.push({
+          name: "year",
+          value: item,
+        })
+      );
+
+      setParams(queryParams);
+      console.log(queryParams);
+    }
   };
 
   return (
-    <div>
-      <Table columns={columns} dataSource={tableData} onChange={onChange} />
-    </div>
+    <Table
+      columns={columns}
+      dataSource={tableData}
+      onChange={onChange}
+      loading={isFetching}
+    />
   );
 };
 

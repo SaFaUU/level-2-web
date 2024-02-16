@@ -18,7 +18,9 @@ const createAcademicSemester: RequestHandler = catchAsync(async (req, res) => {
   })
 })
 const getAcademicSemester: RequestHandler = catchAsync(async (req, res) => {
-  const result = await AcademicSemesterServices.getAcademicSemesterFromDB()
+  const result = await AcademicSemesterServices.getAcademicSemesterFromDB(
+    req.query,
+  )
 
   //send response
   sendResponse(res, {
