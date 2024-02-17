@@ -20,9 +20,9 @@ import { Admin } from '../admin/admin.model'
 import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary'
 
 const createStudentIntoDB = async (
-  file: any,
   password: string,
   payload: TStudent,
+  file?: any,
 ) => {
   // create a user object
   const userData: Partial<TUser> = {}
@@ -75,7 +75,6 @@ const createStudentIntoDB = async (
 
     // create a user (transaction - 1)
     const newUser = await User.create([userData], { session }) // After transaction it becomes array
-
     // create a student
     if (!newUser.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user')

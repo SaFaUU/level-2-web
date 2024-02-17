@@ -30,6 +30,16 @@ const academicManagementApi = baseApi.injectEndpoints({
         };
       },
     }),
+    getAllDepartments: builder.query({
+      query: () => ({
+        url: "/academic-departments",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }),
+    }),
     addAcademicSemester: builder.mutation({
       query: (data) => ({
         url: "/academic-semesters/create-academic-semester",
@@ -43,5 +53,8 @@ const academicManagementApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllSemestersQuery, useAddAcademicSemesterMutation } =
-  academicManagementApi;
+export const {
+  useGetAllSemestersQuery,
+  useAddAcademicSemesterMutation,
+  useGetAllDepartmentsQuery,
+} = academicManagementApi;
