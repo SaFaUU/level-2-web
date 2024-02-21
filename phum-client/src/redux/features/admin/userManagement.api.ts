@@ -62,8 +62,15 @@ const userManagementApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    changePassword: builder.mutation({
+      query: (data) => ({
+        url: "/auth/change-password",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useAddStudentMutation, useGetAllStudentsQuery, useGetAllFacultiesQuery } =
+export const { useAddStudentMutation, useGetAllStudentsQuery, useGetAllFacultiesQuery, useChangePasswordMutation } =
   userManagementApi;

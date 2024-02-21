@@ -13,9 +13,13 @@ import PHInput from "../components/form/PHInput";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  // const defaultValues = {
+  //   userId: "A-0001",
+  //   password: "admin1234",
+  // };
   const defaultValues = {
-    userId: "A-0001",
-    password: "admin1234",
+    userId: "2025010001",
+    password: "student123",
   };
 
   const [login, { error }] = useLoginMutation();
@@ -28,11 +32,17 @@ const Login = () => {
         password: data.password,
       };
       const res = await login(userInfo).unwrap();
-
       const user = verifyToken(res.data.accessToken) as TUser;
       dispatch(setUser({ user: user, token: res.data.accessToken }));
       toast.success("Logged in successfully", { id: toastId, duration: 2000 });
-      navigate(`/${user.role}/dashboard`);
+
+      
+      if(res.data.needsPasswordChange){
+        navigate('/change-password');
+      }else{
+
+        navigate(`/${user.role}/dashboard`);
+      }
     } catch (err) {
       toast.error("Something went wrong", { id: toastId, duration: 2000 });
     }
