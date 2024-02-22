@@ -11,3 +11,5 @@ export type TSemester = {
   createdAt: string;
   updatedAt: string;
 };
+
+
