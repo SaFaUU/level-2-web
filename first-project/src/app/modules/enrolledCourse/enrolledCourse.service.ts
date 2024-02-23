@@ -230,7 +230,9 @@ const updateEnrolledCourseMarksIntoDB = async (
 }
 
 const getAllEnrolledCoursesFromDB = async () => {
-  const result = await EnrolledCourse.find()
+  const result = await EnrolledCourse.find().populate(
+    'semesterRegistration academicSemester academicDepartment offeredCourse course student faculty academicFaculty',
+  )
   return result
 }
 
@@ -238,15 +240,15 @@ const getMyEnrolledCoursesFromDB = async (
   userId: string,
   query: Record<string, unknown>,
 ) => {
-  const student = await Student.findOne({ id: userId })
+  const student = await Student.findOne({ id: userId }).populate(
+    'semesterRegistration academicSemester academicDepartment offeredCourse course student faculty academicFaculty',
+  )
   if (!student) {
     throw new AppError(httpStatus.NOT_FOUND, 'Student not found')
   }
 
   const enrolledCourseQuery = new QueryBuilder(
-    EnrolledCourse.find({ student: student._id }).populate(
-      'semesterRegistration academicSemester academicDepartment offeredCourse course student faculty academicFaculty',
-    ),
+    EnrolledCourse.find({ student: student._id }),
     query,
   )
     .filter()
@@ -254,7 +256,9 @@ const getMyEnrolledCoursesFromDB = async (
     .paginate()
     .fields()
 
-  const result = await enrolledCourseQuery.modelQuery
+  const result = await enrolledCourseQuery.modelQuery.populate(
+    'academicSemester academicDepartment offeredCourse course student faculty academicFaculty',
+  )
   const meta = await enrolledCourseQuery.countTotal()
   return { meta, result }
 }

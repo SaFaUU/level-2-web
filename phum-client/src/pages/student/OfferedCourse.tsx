@@ -1,12 +1,18 @@
 import React from "react";
-import { useGetAllOfferedCoursesQuery } from "../../redux/features/student/studentCourseManagement.api";
+import { useEnrollCourseMutation, useGetAllOfferedCoursesQuery } from "../../redux/features/student/studentCourseManagement.api";
 import { Button, Col, Row } from "antd";
+import { toast } from "sonner";
+
+
+type TCourse = {
+  [index: string]: any;
+}
 
 const OfferedCourse = () => {
   const {data: offeredCourseData} = useGetAllOfferedCoursesQuery(undefined);
-  console.log(offeredCourseData);
+  const [enroll] = useEnrollCourseMutation();
 
-  const singleObject = offeredCourseData?.data?.reduce((acc, item) =>{
+  const singleObject = offeredCourseData?.data?.reduce((acc:TCourse, item) =>{
     const key = item.course.title
     acc[key] = acc[key] || {courseTitle: key, sections: []}
     acc[key].sections.push({
@@ -19,14 +25,35 @@ const OfferedCourse = () => {
     return acc;
   }, {})
 
-  console.log(singleObject);
  const modifiedData =  Object.values(singleObject ? singleObject : {});
+
+ const handleEnroll = async (id: string) => {
+  const data = {
+    offeredCourse: id
+  }
+  const res = await enroll(data);
+  console.log(res);
+  if(res.data.success){
+    toast.success(res.data.message);
+  }
+ };
+
+ if(modifiedData.length === 0){
+  return (
+    <Row justify="center" align="middle" style={{ height: "100vh" }}>
+      <h1>No courses found</h1>
+    </Row>
+  )
+ }
+
+
+
   return (
     <Row gutter={[10, 20]}>
       {
         modifiedData.map(item =>{
           return (
-            <Col span={24} style={{border: "solid #d4d4d4 2px", }}>
+            <Col span={24} style={{border: "solid #d4d4d4 2px", }} key={item.courseTitle}>
               <div style={{padding: "10px"}}>
               <h2>
               {item.courseTitle}
@@ -42,7 +69,7 @@ const OfferedCourse = () => {
                         <Col span={5}>End Time: {section.endTime}</Col>
                         <Col span={5}>Days: {section.days.map((day, index) => <span key={index}> {day} </span>) }</Col>
 
-                        <Button>Enroll</Button>
+                        <Button onClick={() => handleEnroll(section._id)}>Enroll</Button>
                       </Row>
                     )
                   })

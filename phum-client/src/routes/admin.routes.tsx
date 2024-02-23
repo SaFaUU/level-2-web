@@ -11,7 +11,7 @@ import CreateStudent from "../pages/admin/userManagement/CreateStudent";
 import StudentData from "../pages/admin/userManagement/StudentData";
 import StudentDetails from "../pages/admin/userManagement/StudentDetails";
 import CreateCourse from "../pages/admin/courseManagement/createCourse";
-import OfferedCourse from "../pages/faculty/OfferedCourse";
+import OfferedCourse from "../pages/faculty/MyCourses";
 import SemesterRegistration from "../pages/admin/courseManagement/SemesterRegistration";
 import RegisteredSemester from "../pages/admin/courseManagement/RegisteredSemester";
 import Courses from "../pages/admin/courseManagement/Courses";
