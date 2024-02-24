@@ -1,36 +1,41 @@
-import { Schema, model } from 'mongoose'
+import mongoose, { Schema } from 'mongoose';
+import { Grade } from './enrolledCourse.constant';
 import {
-  TEnrolledCourseMarks,
   TEnrolledCourse,
-} from './enrolledCourse.interface'
-import { Grade } from './enrolledCourse.constant'
+  TEnrolledCourseMarks,
+} from './enrolledCourse.interface';
 
-const courseMarkSchema = new Schema<TEnrolledCourseMarks>({
-  classTest1: {
-    type: Number,
-    // min: 0,
-    // max: 10,
-    default: 0,
+const courseMarksSchema = new Schema<TEnrolledCourseMarks>(
+  {
+    classTest1: {
+      type: Number,
+      min: 0,
+      max: 10,
+      default: 0,
+    },
+    midTerm: {
+      type: Number,
+      min: 0,
+      max: 30,
+      default: 0,
+    },
+    classTest2: {
+      type: Number,
+      min: 0,
+      max: 10,
+      default: 0,
+    },
+    finalTerm: {
+      type: Number,
+      min: 0,
+      max: 50,
+      default: 0,
+    },
   },
-  midTerm: {
-    type: Number,
-    // min: 0,
-    // max: 30,
-    default: 0,
+  {
+    _id: false,
   },
-  classTest2: {
-    type: Number,
-    // min: 0,
-    // max: 10,
-    default: 0,
-  },
-  finalTerm: {
-    type: Number,
-    // min: 0,
-    // max: 50,
-    default: 0,
-  },
-})
+);
 
 const enrolledCourseSchema = new Schema<TEnrolledCourse>({
   semesterRegistration: {
@@ -65,7 +70,7 @@ const enrolledCourseSchema = new Schema<TEnrolledCourse>({
   },
   student: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Student',
     required: true,
   },
   faculty: {
@@ -78,7 +83,7 @@ const enrolledCourseSchema = new Schema<TEnrolledCourse>({
     default: false,
   },
   courseMarks: {
-    type: courseMarkSchema,
+    type: courseMarksSchema,
     default: {},
   },
   grade: {
@@ -96,11 +101,11 @@ const enrolledCourseSchema = new Schema<TEnrolledCourse>({
     type: Boolean,
     default: false,
   },
-})
+});
 
-const EnrolledCourse = model<TEnrolledCourse>(
+const EnrolledCourse = mongoose.model<TEnrolledCourse>(
   'EnrolledCourse',
   enrolledCourseSchema,
-)
+);
 
-export default EnrolledCourse
+export default EnrolledCourse;

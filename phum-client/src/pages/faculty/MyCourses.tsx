@@ -3,8 +3,11 @@ import { useGetAllFacultyCoursesQuery } from "../../redux/features/faculty/facul
 import PHForm from "../../components/form/PHForm";
 import PHSelect from "../../components/form/PHSelect";
 import { Button, Col, Flex } from "antd";
+import { useNavigate } from "react-router-dom";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 
 const MyCourses = () => {
+  const navigate = useNavigate();
   const {data: facultyCoursesData} = useGetAllFacultyCoursesQuery(undefined);
   console.log(facultyCoursesData);
 
@@ -18,8 +21,9 @@ const MyCourses = () => {
     value: item.course._id,
   }));
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
+    navigate(`/faculty/courses/${data.semesterRegistration}/${data.course}`);
   };
   return (
     <Flex justify="center" align="center">

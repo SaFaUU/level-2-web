@@ -229,12 +229,37 @@ const updateEnrolledCourseMarksIntoDB = async (
   return result
 }
 
-const getAllEnrolledCoursesFromDB = async () => {
-  const result = await EnrolledCourse.find().populate(
-    'semesterRegistration academicSemester academicDepartment offeredCourse course student faculty academicFaculty',
+const getAllEnrolledCoursesFromDB = async (
+  facultyId: string,
+  query: Record<string, unknown>,
+) => {
+  const faculty = await Faculty.findOne({ id: facultyId });
+
+  if (!faculty) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Faculty not found !');
+  }
+
+  const enrolledCourseQuery = new QueryBuilder(
+    EnrolledCourse.find({
+      faculty: faculty._id,
+    }).populate(
+      'semesterRegistration academicSemester academicFaculty academicDepartment offeredCourse course faculty student',
+    ),
+    query,
   )
-  return result
-}
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await enrolledCourseQuery.modelQuery;
+  const meta = await enrolledCourseQuery.countTotal();
+
+  return {
+    meta,
+    result,
+  };
+};
 
 const getMyEnrolledCoursesFromDB = async (
   userId: string,
