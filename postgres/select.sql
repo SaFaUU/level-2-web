@@ -1,3 +1,4 @@
+-- Active: 1709891501590@@127.0.0.1@5432@ph
 CREATE table students(
     student_id SERIAL PRIMARY KEY, 
     first_name VARCHAR(50) NOT NULL,
@@ -60,3 +61,39 @@ SELECT * FROM students WHERE age != 16 AND course='Math';
 SELECT upper(first_name), * FROM students;
 
 SELECT concat(first_name, ' ', last_name) as "fullName", * FROM students;
+
+SELECT avg(age) FROM students;
+
+SELECT max(age) FROM students;
+
+select count(*) from students;
+
+select max(length(first_name)) from students;
+
+SELECT * FROM students WHERE NOT country = 'USA';
+
+
+SELECT * from students WHERE email IS NULL;
+
+select COALESCE(email, 'N/A') AS "Email" FROM students;
+
+SELECT * from students WHERE country='USA' or country='Australia';
+
+SELECT * from students WHERE country IN ('USA', 'Australia');
+
+SELECT * from students where age BETWEEN 16 and 22;
+
+SELECT * from students WHERE first_name LIKE 'J%';
+
+SELECT * from students WHERE first_name LIKE '_o%';
+
+SELECT * from students WHERE first_name ILIKE 'j%';
+
+SELECT * from students LIMIT 5 OFFSET 5;
+
+
+SELECT * from students;
+
+DELETE FROM students WHERE first_name = 'John';
+
+update  students set country='Canada', last_name='Ulluk'  where first_name='Jane';
