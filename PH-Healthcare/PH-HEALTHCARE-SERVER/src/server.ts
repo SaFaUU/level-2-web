@@ -1,13 +1,13 @@
 import express from "express";
-
-const app = express();
+import app from "./app";
+import { Server } from "http";
 
 const port = 3000;
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
+async function main() {
+  const server: Server = app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+}
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+main();
