@@ -1,8 +1,78 @@
-import { Doctor } from "@prisma/client";
+import { Doctor, Prisma } from "@prisma/client";
 import prisma from "../../../shared/prisma";
+import { paginationHelper } from "../../../helpers/paginationHelper";
+import { doctorSearchableFields } from "./doctor.constant";
 
-const getAllFromDB = async () => {
-  const result = await prisma.doctor.findMany();
+const getAllFromDB = async (filters: any, options: any) => {
+  const { page, limit, sortBy, sortOrder, skip } =
+    paginationHelper.calculatePagination(options);
+  const { searchTerm, specialities, ...filterData } = filters;
+  const andConditions: Prisma.DoctorWhereInput[] = [];
+
+  console.log(specialities);
+
+  if (searchTerm) {
+    andConditions.push({
+      OR: doctorSearchableFields.map((field) => {
+        return {
+          [field]: {
+            contains: searchTerm,
+            mode: "insensitive",
+          },
+        };
+      }),
+    });
+  }
+
+  if (specialities && specialities.length > 0) {
+    andConditions.push({
+      doctorSpecialties: {
+        some: {
+          specialities: {
+            title: {
+              contains: specialities,
+              mode: "insensitive",
+            },
+          },
+        },
+      },
+    });
+  }
+
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      AND: Object.entries(filterData).map(([key, value]) => {
+        return {
+          [key]: {
+            equals: value,
+          },
+        };
+      }),
+    });
+  }
+  andConditions.push({
+    isDeleted: false,
+  });
+
+  const whereConditions: Prisma.DoctorWhereInput = { AND: andConditions };
+
+  const result = await prisma.doctor.findMany({
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: options.sortBy
+      ? {
+          [options.sortBy]: options.sortOrder || "asc",
+        }
+      : { createdAt: "desc" },
+    include: {
+      doctorSpecialties: {
+        include: {
+          specialities: true,
+        },
+      },
+    },
+  });
   return result;
 };
 
@@ -17,9 +87,6 @@ const getByIDFromDB = async (id: string) => {
 
 const updateIntoDB = async (id: string, data: Partial<Doctor>) => {
   const { specialties, ...doctorData } = data;
-
-  console.log(specialties);
-  console.log(doctorData);
 
   const doctorInfo = await prisma.doctor.findUniqueOrThrow({
     where: {
