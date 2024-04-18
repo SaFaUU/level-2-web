@@ -50,6 +50,7 @@ const getAllFromDB = async (filters: any, options: any) => {
       }),
     });
   }
+  
   andConditions.push({
     isDeleted: false,
   });
