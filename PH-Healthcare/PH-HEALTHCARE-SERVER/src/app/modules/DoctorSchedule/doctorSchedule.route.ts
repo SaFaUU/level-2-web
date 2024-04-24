@@ -8,4 +8,6 @@ const router = Router();
 
 router.post("/", auth(UserRole.DOCTOR), DoctorScheduleController.insertIntoDB);
 
+// router.get("/", auth(UserRole.DOCTOR), DoctorScheduleController.getAllFromDB);
+
 export const DoctorScheduleRoutes = router;

@@ -30,6 +30,12 @@ const insertIntoDB = async (
   return result;
 };
 
+const getAllFromDB = async () => {
+  const result = await prisma.doctorSchedules.findMany();
+  return result;
+};
+
 export const DoctorScheduleService = {
   insertIntoDB,
+  getAllFromDB,
 };
