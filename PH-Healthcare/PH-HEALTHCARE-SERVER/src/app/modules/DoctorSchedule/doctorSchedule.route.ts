@@ -10,16 +10,20 @@ router.post("/", auth(UserRole.DOCTOR), DoctorScheduleController.insertIntoDB);
 
 router.get(
   "/my-schedule",
-  auth(UserRole.DOCTOR),
+  auth(UserRole.SUPER_ADMIN, UserRole.DOCTOR),
   DoctorScheduleController.getMySchedule
 );
 
 router.delete(
   "/:id",
-  auth(UserRole.DOCTOR),
+  auth(UserRole.SUPER_ADMIN, UserRole.DOCTOR),
   DoctorScheduleController.deleteFromDB
 );
 
-router.get("/", auth(UserRole.DOCTOR), DoctorScheduleController.getAllFromDB);
+router.get(
+  "/",
+  auth(UserRole.SUPER_ADMIN, UserRole.DOCTOR),
+  DoctorScheduleController.getAllFromDB
+);
 
 export const DoctorScheduleRoutes = router;

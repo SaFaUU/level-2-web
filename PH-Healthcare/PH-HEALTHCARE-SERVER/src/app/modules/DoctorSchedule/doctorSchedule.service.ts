@@ -202,6 +202,16 @@ const getAllFromDB = async (filters: any, options: any) => {
     });
   }
 
+  if (filterData.email) {
+    andConditions.push({
+      doctor: {
+        email: {
+          equals: filterData.email,
+        },
+      },
+    });
+  }
+
   const whereConditions: Prisma.DoctorSchedulesWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
