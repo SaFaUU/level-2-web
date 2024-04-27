@@ -77,8 +77,6 @@ const getAllFromDB = async (
   const { limit, page, skip } = paginationHelper.calculatePagination(options);
   const { startDate, endDate, ...filterData } = filters;
 
-  console.log(startDate, endDate);
-
   const andConditions = [];
 
   if (startDate && endDate) {

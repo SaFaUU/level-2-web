@@ -19,11 +19,10 @@ import { IAuthUser } from "../../interfaces/common";
 
 const createAdmin = async (req: Request): Promise<Admin> => {
   const file = req.file as IFile;
-  console.log(file);
 
   if (file) {
     const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
-    console.log(uploadToCloudinary);
+
     req.body.admin.profilePhoto = uploadToCloudinary?.secure_url;
   }
 
@@ -51,11 +50,10 @@ const createAdmin = async (req: Request): Promise<Admin> => {
 
 const createDoctor = async (req: Request): Promise<Doctor> => {
   const file = req.file as IFile;
-  console.log(file);
 
   if (file) {
     const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
-    console.log(uploadToCloudinary);
+
     req.body.doctor.profilePhoto = uploadToCloudinary?.secure_url;
   }
 
@@ -82,11 +80,10 @@ const createDoctor = async (req: Request): Promise<Doctor> => {
 };
 const createPatient = async (req: Request): Promise<Patient> => {
   const file = req.file as IFile;
-  console.log(file);
 
   if (file) {
     const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
-    console.log(uploadToCloudinary);
+
     req.body.patient.profilePhoto = uploadToCloudinary?.secure_url;
   }
 
@@ -192,7 +189,6 @@ const changeProfileStatus = async (
   id: string,
   data: { status: UserStatus }
 ) => {
-  console.log(id, data);
   const userData = await prisma.user.findUniqueOrThrow({
     where: {
       id,

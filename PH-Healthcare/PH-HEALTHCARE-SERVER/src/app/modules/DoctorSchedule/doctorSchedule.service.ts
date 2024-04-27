@@ -16,7 +16,6 @@ const insertIntoDB = async (
     scheduleIds: string[];
   }
 ) => {
-  console.log(payload.scheduleIds);
   const doctorData = await prisma.doctor.findUniqueOrThrow({
     where: {
       email: user.email,
@@ -42,8 +41,6 @@ const getMySchedule = async (
 ) => {
   const { limit, page, skip } = paginationHelper.calculatePagination(options);
   const { startDate, endDate, ...filterData } = filters;
-
-  console.log(startDate, endDate);
 
   const andConditions = [];
 
@@ -153,8 +150,6 @@ const deleteFromDB = async (user: IAuthUser, scheduleId: string) => {
 const getAllFromDB = async (filters: any, options: any) => {
   const { limit, page, skip } = paginationHelper.calculatePagination(options);
   const { startDate, endDate, ...filterData } = filters;
-
-  console.log(startDate, endDate);
 
   const andConditions = [];
 

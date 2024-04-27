@@ -8,7 +8,7 @@ const router = Router();
 
 router.post(
   "/",
-  auth(UserRole.DOCTOR),
+  auth(UserRole.PATIENT),
   AppointmentController.createAppointment
 );
 

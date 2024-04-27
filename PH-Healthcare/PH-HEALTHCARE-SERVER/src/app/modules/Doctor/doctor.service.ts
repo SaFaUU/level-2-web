@@ -9,8 +9,6 @@ const getAllFromDB = async (filters: any, options: any) => {
   const { searchTerm, specialities, ...filterData } = filters;
   const andConditions: Prisma.DoctorWhereInput[] = [];
 
-  console.log(specialities);
-
   if (searchTerm) {
     andConditions.push({
       OR: doctorSearchableFields.map((field) => {
@@ -50,7 +48,7 @@ const getAllFromDB = async (filters: any, options: any) => {
       }),
     });
   }
-  
+
   andConditions.push({
     isDeleted: false,
   });

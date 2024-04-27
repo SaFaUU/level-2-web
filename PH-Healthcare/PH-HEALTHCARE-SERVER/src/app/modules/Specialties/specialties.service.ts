@@ -7,14 +7,13 @@ const insertIntoDB = async (req: Request) => {
   const file = req.file as IFile;
   if (file) {
     const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
-    console.log(uploadToCloudinary);
+
     req.body.icon = uploadToCloudinary?.secure_url;
   }
   const result = await prisma.specialties.create({
     data: req.body,
   });
 
-  console.log(result);
   return result;
 };
 
