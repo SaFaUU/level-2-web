@@ -3,17 +3,72 @@ import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import pick from "../../../shared/pick";
+import { appointmentFilterableFields } from "./appointment.constant";
+import { AppointmentServices } from "./appointment.service";
 import { IAuthUser } from "../../interfaces/common";
-import { AppointmentService } from "./appointment.service";
 
 const createAppointment = catchAsync(
   async (req: Request & { user?: IAuthUser }, res: Response) => {
-    const user = req.user as IAuthUser;
-    const result = await AppointmentService.createAppointment(user, req.body);
+    const user = req.user;
+    const result = await AppointmentServices.createAppointment(
+      req.body,
+      user as IAuthUser
+    );
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Appointment created successfully",
+      message: "Appointment booked successfully!",
+      data: result,
+    });
+  }
+);
+
+const getMyAppointment = catchAsync(
+  async (req: Request & { user?: IAuthUser }, res: Response) => {
+    const filters = pick(req.query, appointmentFilterableFields);
+    const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+    const user = req.user;
+    const result = await AppointmentServices.getMyAppointment(
+      filters,
+      options,
+      user as IAuthUser
+    );
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Appointment retrieval successfully",
+      meta: result.meta,
+      data: result.data,
+    });
+  }
+);
+
+const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, appointmentFilterableFields);
+  const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+  const result = await AppointmentServices.getAllFromDB(filters, options);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Appointment retrieval successfully",
+    meta: result.meta,
+    data: result.data,
+  });
+});
+
+const changeAppointmentStatus = catchAsync(
+  async (req: Request & { user?: IAuthUser }, res: Response) => {
+    const { id } = req.params;
+    const user = req.user;
+    const result = await AppointmentServices.changeAppointmentStatus(
+      id,
+      req.body.status,
+      user
+    );
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Appointment status changed successfully",
       data: result,
     });
   }
@@ -21,4 +76,7 @@ const createAppointment = catchAsync(
 
 export const AppointmentController = {
   createAppointment,
+  getMyAppointment,
+  getAllFromDB,
+  changeAppointmentStatus,
 };
