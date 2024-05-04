@@ -3,7 +3,7 @@ import { fileUploader } from "../../../helpers/fileUploader";
 import prisma from "../../../shared/prisma";
 import { IFile } from "../../interfaces/file";
 import { addHours, addMinutes, format } from "date-fns";
-import { DoctorSchedules, Prisma, Schedule } from "@prisma/client";
+import { DoctorSchedule, Prisma, Schedule } from "@prisma/client";
 import { IAuthUser } from "../../interfaces/common";
 import { IPaginationOptions } from "../../interfaces/pagination";
 import { paginationHelper } from "../../../helpers/paginationHelper";
@@ -27,7 +27,7 @@ const insertIntoDB = async (
     scheduleId,
   }));
 
-  const result = await prisma.doctorSchedules.createMany({
+  const result = await prisma.doctorSchedule.createMany({
     data: doctorScheduleData,
   });
 
@@ -88,10 +88,10 @@ const getMySchedule = async (
     });
   }
 
-  const whereConditions: Prisma.DoctorSchedulesWhereInput =
+  const whereConditions: Prisma.DoctorScheduleWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const result = await prisma.doctorSchedules.findMany({
+  const result = await prisma.doctorSchedule.findMany({
     where: whereConditions,
     skip,
     take: limit,
@@ -100,7 +100,7 @@ const getMySchedule = async (
         ? { [options.sortBy]: options.sortOrder }
         : {},
   });
-  const total = await prisma.doctorSchedules.count({
+  const total = await prisma.doctorSchedule.count({
     where: whereConditions,
   });
 
@@ -121,7 +121,7 @@ const deleteFromDB = async (user: IAuthUser, scheduleId: string) => {
     },
   });
 
-  const isBookedSchedule = await prisma.doctorSchedules.findFirst({
+  const isBookedSchedule = await prisma.doctorSchedule.findFirst({
     where: {
       doctorId: doctorData.id,
       scheduleId,
@@ -136,7 +136,7 @@ const deleteFromDB = async (user: IAuthUser, scheduleId: string) => {
     );
   }
 
-  const result = await prisma.doctorSchedules.delete({
+  const result = await prisma.doctorSchedule.delete({
     where: {
       doctorId_scheduleId: {
         doctorId: doctorData.id,
@@ -207,10 +207,10 @@ const getAllFromDB = async (filters: any, options: any) => {
     });
   }
 
-  const whereConditions: Prisma.DoctorSchedulesWhereInput =
+  const whereConditions: Prisma.DoctorScheduleWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const result = await prisma.doctorSchedules.findMany({
+  const result = await prisma.doctorSchedule.findMany({
     where: whereConditions,
     skip,
     take: limit,
@@ -219,7 +219,7 @@ const getAllFromDB = async (filters: any, options: any) => {
         ? { [options.sortBy]: options.sortOrder }
         : {},
   });
-  const total = await prisma.doctorSchedules.count({
+  const total = await prisma.doctorSchedule.count({
     where: whereConditions,
   });
 

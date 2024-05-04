@@ -111,7 +111,7 @@ const getAllFromDB = async (
   const whereConditions: Prisma.ScheduleWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const doctorSchedules = await prisma.doctorSchedules.findMany({
+  const doctorSchedules = await prisma.doctorSchedule.findMany({
     where: {
       doctor: {
         email: user?.email,

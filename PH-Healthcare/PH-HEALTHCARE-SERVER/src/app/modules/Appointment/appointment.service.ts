@@ -46,7 +46,7 @@ const createAppointment = async (
     throw new ApiError(httpStatus.BAD_REQUEST, "Patient doesn't exists!");
   }
 
-  const isExistsDoctorSchedule = await prisma.doctorSchedules.findFirst({
+  const isExistsDoctorSchedule = await prisma.doctorSchedule.findFirst({
     where: {
       doctorId: doctorId,
       scheduleId: scheduleId,
@@ -77,7 +77,7 @@ const createAppointment = async (
       },
     });
 
-    await transactionClient.doctorSchedules.updateMany({
+    await transactionClient.doctorSchedule.updateMany({
       where: {
         doctorId: isDoctorExists.id,
         scheduleId: isExistsDoctorSchedule.scheduleId,
@@ -245,6 +245,7 @@ const getAllFromDB = async (
 
 const cancelUnpaidAppointments = async () => {
   const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+
   const uppaidAppointments = await prisma.appointment.findMany({
     where: {
       paymentStatus: PaymentStatus.UNPAID,
@@ -277,7 +278,7 @@ const cancelUnpaidAppointments = async () => {
     });
 
     await asyncForEach(uppaidAppointments, async (appointment: any) => {
-      await transactionClient.doctorSchedules.updateMany({
+      await transactionClient.doctorSchedule.updateMany({
         where: {
           AND: [
             {

@@ -63,7 +63,7 @@ const getAllFromDB = async (filters: any, options: any) => {
       ? {
           [options.sortBy]: options.sortOrder || "asc",
         }
-      : { createdAt: "desc" },
+      : { averageRating: "desc" },
     include: {
       doctorSpecialties: {
         include: {
