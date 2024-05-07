@@ -1,0 +1,40 @@
+{
+  "gpus": [
+    {
+      "id": 1,
+      "title": "NVIDIA GeForce RTX 3080",
+      "description": "The NVIDIA GeForce RTX 3080 is a high-end graphics card based on the Ampere architecture, offering exceptional gaming performance and ray tracing capabilities.",
+      "price": 599
+    },
+    {
+      "id": 2,
+      "title": "AMD Radeon RX 6800 XT",
+      "description": "The AMD Radeon RX 6800 XT is a powerful graphics card featuring AMD's RDNA 2 architecture, delivering outstanding 4K gaming performance and hardware-accelerated ray tracing.",
+      "price": 649
+    },
+    {
+      "id": 3,
+      "title": "NVIDIA GeForce RTX 3070",
+      "description": "The NVIDIA GeForce RTX 3070 is a mid-range graphics card offering excellent gaming performance at 1440p resolution, with support for real-time ray tracing.",
+      "price": 499
+    },
+    {
+      "id": 4,
+      "title": "AMD Radeon RX 6700 XT",
+      "description": "The AMD Radeon RX 6700 XT is a high-performance graphics card designed for 1440p gaming, featuring AMD's RDNA 2 architecture and support for DirectX 12 Ultimate.",
+      "price": 479
+    },
+    {
+      "id": 5,
+      "title": "NVIDIA GeForce RTX 3060 Ti",
+      "description": "The NVIDIA GeForce RTX 3060 Ti is a mainstream graphics card offering excellent performance for 1080p and 1440p gaming, with hardware-accelerated ray tracing support.",
+      "price": 399
+    },
+    {
+      "id": 6,
+      "title": "AMD Radeon RX 6600 XT",
+      "description": "The AMD Radeon RX 6600 XT is an affordable graphics card ideal for 1080p gaming, featuring AMD's RDNA 2 architecture and support for high-refresh-rate monitors.",
+      "price": 329
+    }
+  ]
+}
