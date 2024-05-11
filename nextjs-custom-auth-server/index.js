@@ -76,7 +76,7 @@ async function run() {
 
       // Generate JWT token
       const token = jwt.sign(
-        { email: user.email, role: user.role },
+        { email: user.email, role: user.role, id: user._id },
         process.env.JWT_SECRET,
         {
           expiresIn: process.env.EXPIRES_IN,

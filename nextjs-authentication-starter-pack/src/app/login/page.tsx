@@ -1,10 +1,13 @@
 "use client";
+import { loginUser } from "@/utils/actions/loginUser";
+import { jwtDecode } from "jwt-decode";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-type FormValues = {
+export type FormValues = {
   email: string;
   password: string;
 };
@@ -16,8 +19,24 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
+  const router = useRouter();
+
   const onSubmit = async (data: FormValues) => {
-    console.log(data);
+    const res = await loginUser(data);
+    console.log(res);
+    if (res.accessToken) {
+      localStorage.setItem("accessToken", res.accessToken);
+      const decoded = jwtDecode(res.accessToken) as any;
+      console.log(decoded);
+
+      signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        callbackUrl: "/",
+      });
+
+      router.push("/");
+    }
   };
 
   return (
@@ -78,7 +97,14 @@ const LoginPage = () => {
           </form>
           <p className="text-center">Or Sign Up Using</p>
           <div className="flex justify-center mb-10 mt-2">
-            <button className="btn btn-circle ">
+            <button
+              className="btn btn-circle"
+              onClick={() =>
+                signIn("google", {
+                  callbackUrl: "/dashboard",
+                })
+              }
+            >
               <Image
                 src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"
                 width={50}
@@ -88,11 +114,7 @@ const LoginPage = () => {
             </button>
             <button
               className="btn btn-circle"
-              onClick={() =>
-                signIn("github", {
-                  callbackUrl: "http://localhost:3000/dashboard",
-                })
-              }
+              onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
             >
               <Image
                 src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
