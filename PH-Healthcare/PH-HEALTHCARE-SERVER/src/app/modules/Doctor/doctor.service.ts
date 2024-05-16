@@ -72,7 +72,19 @@ const getAllFromDB = async (filters: any, options: any) => {
       },
     },
   });
-  return result;
+
+  const total = await prisma.doctor.count({
+    where: whereConditions,
+  });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
 const getByIDFromDB = async (id: string) => {
