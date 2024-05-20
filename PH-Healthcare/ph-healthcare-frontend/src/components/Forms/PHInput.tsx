@@ -28,7 +28,7 @@ const PHInput = ({
     <Controller
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
           label={label}
@@ -39,6 +39,8 @@ const PHInput = ({
           sx={{ ...sx }}
           placeholder={label}
           required={required}
+          error={!!error}
+          helperText={error?.message}
         />
       )}
     />

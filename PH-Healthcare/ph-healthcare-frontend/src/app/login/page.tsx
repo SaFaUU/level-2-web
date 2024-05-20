@@ -4,6 +4,7 @@ import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import { userLogin } from "@/services/actions/userLogin";
 import { storeUserInfo } from "@/services/auth.service";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Button,
@@ -28,6 +29,7 @@ export const validationSchema = z.object({
 
 const LoginPage = () => {
   const router = useRouter();
+  const [error, setError] = React.useState("");
 
   const handleLogin = async (values: FieldValues) => {
     try {
@@ -37,6 +39,9 @@ const LoginPage = () => {
         storeUserInfo(res.data.accessToken);
         toast.success(res.message);
         router.push("/");
+      } else {
+        setError(res.message);
+        toast.error(res.message);
       }
     } catch (err: any) {
       console.log(err.message);
@@ -79,7 +84,14 @@ const LoginPage = () => {
             </Box>
           </Stack>
           <Box>
-            <PHForm onSubmit={handleLogin}>
+            <PHForm
+              onSubmit={handleLogin}
+              resolver={zodResolver(validationSchema)}
+              defaultValues={{
+                email: "",
+                password: "",
+              }}
+            >
               <Grid container spacing={2}>
                 <Grid item md={6}>
                   <PHInput
@@ -87,7 +99,6 @@ const LoginPage = () => {
                     type="email"
                     fullWidth={true}
                     name={"email"}
-                    required={true}
                   />
                 </Grid>
                 <Grid item md={6}>
@@ -96,7 +107,6 @@ const LoginPage = () => {
                     type="password"
                     fullWidth={true}
                     name={"password"}
-                    required={true}
                   />
                 </Grid>
               </Grid>
