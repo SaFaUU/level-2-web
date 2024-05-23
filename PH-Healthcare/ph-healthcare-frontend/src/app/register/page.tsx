@@ -81,7 +81,7 @@ const RegisterPage = () => {
         console.log(userResponse);
         if (userResponse.success) {
           storeUserInfo(userResponse.data.accessToken);
-          router.push("/");
+          router.push("/dashboard");
         }
       }
     } catch (err: any) {
