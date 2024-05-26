@@ -43,7 +43,7 @@ const DoctorModal = ({ open, setOpen }: TProps) => {
       registrationNumber: "",
       gender: "",
       experience: 0,
-      apointmentFee: 0,
+      appointmentFee: 0,
       qualification: "",
       currentWorkingPlace: "",
       designation: "",

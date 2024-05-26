@@ -22,9 +22,10 @@ export const doctorApi = baseApi.injectEndpoints({
         params: arg,
       }),
       transformResponse: (response: IDoctor[], meta: IMeta) => {
+        console.log(response);
         return {
-          doctors: response,
-          meta,
+          doctors: response?.data,
+          meta: response?.meta,
         };
       },
       providesTags: [tagTypes.doctor],
