@@ -37,7 +37,7 @@ const SideBar = () => {
         </Typography>
       </Stack>
       <List>
-        {drawerItems(userRole as UserRole).map((item, index) => (
+        {drawerItems(userRole as UserRole)?.map((item, index) => (
           <SidebarItem key={index} item={item} />
         ))}
       </List>

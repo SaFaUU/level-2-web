@@ -45,7 +45,7 @@ const PHSelectField = ({
             isError ? (formState.errors[name]?.message as string) : ""
           }
         >
-          {items.map((name) => (
+          {items?.map((name) => (
             <MenuItem key={name} value={name}>
               {name}
             </MenuItem>

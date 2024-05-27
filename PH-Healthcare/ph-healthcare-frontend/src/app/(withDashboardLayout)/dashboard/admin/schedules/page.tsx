@@ -14,13 +14,10 @@ const SchedulesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [allSchedule, setAllSchedule] = useState<any>([]);
   const { data, isLoading } = useGetAllSchedulesQuery({});
-  console.log(data);
 
   const schedules = data?.schedules;
-  const meta = data?.meta;
 
-  console.log(schedules);
-  console.log(meta);
+  const meta = data?.meta;
 
   useEffect(() => {
     const updateData = schedules?.map((schedule: ISchedule, index: number) => {

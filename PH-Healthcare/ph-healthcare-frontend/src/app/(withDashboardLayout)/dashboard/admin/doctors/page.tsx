@@ -1,32 +1,27 @@
 "use client";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  IconButton,
-  Stack,
-  TextField,
-} from "@mui/material";
-import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Image from "next/image";
+import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import DoctorModal from "./components/DoctorModal";
+import { useState } from "react";
 import {
   useDeleteDoctorMutation,
   useGetAllDoctorsQuery,
 } from "@/redux/api/doctorApi";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useDebounced } from "@/redux/hooks";
 import { toast } from "sonner";
+import EditIcon from "@mui/icons-material/Edit";
+import Link from "next/link";
 
 const DoctorsPage = () => {
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const query: Record<string, any> = {};
-  const [searchTerm, setSearchTerm] = React.useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  // console.log(searchTerm);
 
   const debouncedTerm = useDebounced({
     searchQuery: searchTerm,
-    delay: 500,
+    delay: 600,
   });
 
   if (!!debouncedTerm) {
@@ -34,22 +29,23 @@ const DoctorsPage = () => {
   }
 
   const { data, isLoading } = useGetAllDoctorsQuery({ ...query });
-
   const [deleteDoctor] = useDeleteDoctorMutation();
 
+  // console.log(data);
   const doctors = data?.doctors;
-
   const meta = data?.meta;
+  // console.log(doctors);
 
   const handleDelete = async (id: string) => {
+    // console.log(id);
     try {
-      const res = await deleteDoctor(id);
-      console.log(res);
-      if (res?.data?.id) {
-        toast.success("Doctor Deleted Successfully");
+      const res = await deleteDoctor(id).unwrap();
+      // console.log(res);
+      if (res?.id) {
+        toast.success("Doctor deleted successfully!!!");
       }
     } catch (err: any) {
-      toast.error(err.message);
+      console.error(err.message);
     }
   };
 
@@ -58,7 +54,7 @@ const DoctorsPage = () => {
     { field: "email", headerName: "Email", flex: 1 },
     { field: "contactNumber", headerName: "Contact Number", flex: 1 },
     { field: "gender", headerName: "Gender", flex: 1 },
-    { field: "appointmentFee", headerName: "appointmentFee", flex: 1 },
+    { field: "apointmentFee", headerName: "Appointment Fee", flex: 1 },
     {
       field: "action",
       headerName: "Action",
@@ -67,9 +63,19 @@ const DoctorsPage = () => {
       align: "center",
       renderCell: ({ row }) => {
         return (
-          <IconButton aria-label="delete" onClick={() => handleDelete(row.id)}>
-            <DeleteIcon />
-          </IconButton>
+          <Box>
+            <IconButton
+              onClick={() => handleDelete(row.id)}
+              aria-label="delete"
+            >
+              <DeleteIcon sx={{ color: "red" }} />
+            </IconButton>
+            <Link href={`/dashboard/admin/doctors/edit/${row.id}`}>
+              <IconButton aria-label="delete">
+                <EditIcon />
+              </IconButton>
+            </Link>
+          </Box>
         );
       },
     },
@@ -77,36 +83,21 @@ const DoctorsPage = () => {
 
   return (
     <Box>
-      <Stack
-        direction="row"
-        justifyContent={"space-between"}
-        alignItems={"center"}
-      >
-        <Button onClick={() => setIsModalOpen(true)}>Create Doctor</Button>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Button onClick={() => setIsModalOpen(true)}>Create New Doctor</Button>
         <DoctorModal open={isModalOpen} setOpen={setIsModalOpen} />
         <TextField
-          size="small"
-          placeholder="Search Doctor"
           onChange={(e) => setSearchTerm(e.target.value)}
+          size="small"
+          placeholder="search doctors"
         />
       </Stack>
       {!isLoading ? (
-        <Box>
+        <Box my={2}>
           <DataGrid rows={doctors} columns={columns} />
         </Box>
       ) : (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            mt: 5,
-            mb: 5,
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <CircularProgress />
-        </Box>
+        <h1>Loading.....</h1>
       )}
     </Box>
   );

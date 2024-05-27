@@ -49,7 +49,7 @@ const TopRatedDoctors = async () => {
       </Box>
       <Container sx={{ margin: "30px auto" }}>
         <Grid container spacing={2}>
-          {doctors.data.map((doctor: any) => (
+          {doctors?.data?.map((doctor: any) => (
             <Grid item xs={6} md={4} key={doctor.id}>
               <Card>
                 <Box>

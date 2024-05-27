@@ -72,8 +72,8 @@ const refreshToken = async (token: string) => {
       email: userData.email,
       role: userData.role,
     },
-    process.env.JWT_ACCESS_TOKEN_SECRET!,
-    "1d"
+    config.jwt.jwt_access_Secret!,
+    config.jwt.jwt_access_expiration!
   );
   return {
     accessToken: accessToken,
@@ -129,7 +129,7 @@ const forgotPassword = async (payload: { email: string }) => {
       role: userData.role,
     },
     config.jwt.jwt_reset_Secret!,
-    config.jwt.jwt_reset_expiration!
+    config.jwt.jwt_access_expiration!
   );
 
   const resetPassLink = `${config.reset_pass_link}?userId=${userData.id}&token=${resetPasswordToken}`;
