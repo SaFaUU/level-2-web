@@ -54,6 +54,9 @@ export const doctorApi = baseApi.injectEndpoints({
           url: `/doctor/${data.id}`,
           method: "PATCH",
           data: data.body,
+          headers: {
+            "Content-Type": "application/json",
+          },
         };
       },
       invalidatesTags: [tagTypes.doctor],
