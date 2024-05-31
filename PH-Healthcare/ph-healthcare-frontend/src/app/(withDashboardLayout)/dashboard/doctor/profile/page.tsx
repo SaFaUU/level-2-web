@@ -1,83 +1,93 @@
 "use client";
-import { useGetMYProfileQuery } from "@/redux/api/myProfile";
-import { Box, Container, Stack, Typography, styled } from "@mui/material";
+import {
+  useGetMYProfileQuery,
+  useUpdateMYProfileMutation,
+} from "@/redux/api/myProfile";
+import { dateFormatter } from "@/utils/dateFormatter";
+import {
+  Box,
+  Button,
+  Container,
+  Stack,
+  Typography,
+  styled,
+} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Image from "next/image";
 import React from "react";
-
-const StyledInformationBox = styled(Box)(({ theme }) => ({
-  backgroundColor: "#f4f7fe",
-  borderRadius: theme.spacing(1),
-  width: "45%",
-  padding: "8px 16px",
-  "& p": {
-    fontWeight: 600,
-  },
-}));
+import DoctorInformation from "./components/DoctorInformation";
+import AutoFileUploader from "@/components/Forms/AutoFileUploader";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import ProfileUpdateModal from "./components/ProfileUpdateModal";
+import EditIcon from "@mui/icons-material/Edit";
 
 const Profile = () => {
   const { data, isLoading } = useGetMYProfileQuery({});
-  console.log(data);
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+
+  const [updateMYProfile, { isLoading: updating }] =
+    useUpdateMYProfileMutation();
+
+  const fileupUploadHandler = (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("data", JSON.stringify({}));
+
+    updateMYProfile(formData);
+  };
 
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <Container>
-      <Grid container spacing={2}>
-        <Grid xs={4}>
-          <Box
-            sx={{
-              height: 300,
-              width: "100%",
-              overflow: "hidden",
-              borderRadius: 2,
-            }}
-          >
-            <Image
-              height={300}
-              width={300}
-              src={data?.profilePhoto}
-              alt="User Photo"
-            />
-          </Box>
+    <>
+      <ProfileUpdateModal
+        open={isModalOpen}
+        setOpen={setIsModalOpen}
+        id={data?.id}
+      />
+      <Container>
+        <Grid container spacing={4}>
+          <Grid xs={12} md={4}>
+            <Box
+              sx={{
+                height: 300,
+                width: "100%",
+                overflow: "hidden",
+                borderRadius: 2,
+              }}
+            >
+              <Image
+                height={300}
+                width={300}
+                src={data?.profilePhoto}
+                alt="User Photo"
+              />
+            </Box>
+            {updating ? (
+              <div>Uploading...</div>
+            ) : (
+              <AutoFileUploader
+                name="file"
+                label="Upload YOur Profile Photo"
+                icon={<CloudUploadIcon />}
+                onFileUpload={fileupUploadHandler}
+                variant="text"
+              />
+            )}
+            <Button
+              fullWidth
+              endIcon={<EditIcon />}
+              onClick={() => setIsModalOpen(true)}
+            >
+              Edit Profile
+            </Button>
+          </Grid>
+          <Grid xs={12} md={8}>
+            <DoctorInformation data={data} />
+          </Grid>
         </Grid>
-        <Grid xs={8}>
-          <Typography variant="h4" color={"primary.main"}>
-            Basic Information
-          </Typography>
-          <Stack
-            direction={{ xs: "column", md: "row" }}
-            gap={1}
-            flexWrap={"wrap"}
-          >
-            <StyledInformationBox>
-              <Typography color={"secondary"} variant="caption">
-                Role
-              </Typography>
-              <Typography>{data?.role}</Typography>
-            </StyledInformationBox>
-            <StyledInformationBox>
-              <Typography color={"secondary"} variant="caption">
-                Name
-              </Typography>
-              <Typography>{data?.name}</Typography>
-            </StyledInformationBox>
-            <StyledInformationBox>
-              <Typography color={"secondary"} variant="caption">
-                Email
-              </Typography>
-              <Typography>{data?.email}</Typography>
-            </StyledInformationBox>
-            <StyledInformationBox>
-              <Typography color={"secondary"} variant="caption">
-                Contact Number
-              </Typography>
-              <Typography>{data?.contactNumber}</Typography>
-            </StyledInformationBox>
-          </Stack>
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </>
   );
 };
 
