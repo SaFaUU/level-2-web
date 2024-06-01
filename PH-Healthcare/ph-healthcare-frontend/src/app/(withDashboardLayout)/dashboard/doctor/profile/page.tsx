@@ -1,34 +1,27 @@
 "use client";
+
 import {
   useGetMYProfileQuery,
   useUpdateMYProfileMutation,
 } from "@/redux/api/myProfile";
-import { dateFormatter } from "@/utils/dateFormatter";
-import {
-  Box,
-  Button,
-  Container,
-  Stack,
-  Typography,
-  styled,
-} from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+import { Box, Button, Container } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Image from "next/image";
-import React from "react";
-import DoctorInformation from "./components/DoctorInformation";
-import AutoFileUploader from "@/components/Forms/AutoFileUploader";
+import React, { useState } from "react";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ProfileUpdateModal from "./components/ProfileUpdateModal";
-import EditIcon from "@mui/icons-material/Edit";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DoctorInformation from "./components/DoctorInformation";
+import AutoFileUploader from "@/components/Forms/AutoFileUploader";
 
 const Profile = () => {
-  const { data, isLoading } = useGetMYProfileQuery({});
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const { data, isLoading } = useGetMYProfileQuery(undefined);
   const [updateMYProfile, { isLoading: updating }] =
     useUpdateMYProfileMutation();
 
-  const fileupUploadHandler = (file: File) => {
+  const fileUploadHandler = (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("data", JSON.stringify({}));
@@ -36,7 +29,9 @@ const Profile = () => {
     updateMYProfile(formData);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+    <p>Loading...</p>;
+  }
 
   return (
     <>
@@ -45,7 +40,7 @@ const Profile = () => {
         setOpen={setIsModalOpen}
         id={data?.id}
       />
-      <Container>
+      <Container sx={{ mt: 4 }}>
         <Grid container spacing={4}>
           <Grid xs={12} md={4}>
             <Box
@@ -53,30 +48,33 @@ const Profile = () => {
                 height: 300,
                 width: "100%",
                 overflow: "hidden",
-                borderRadius: 2,
+                borderRadius: 1,
               }}
             >
               <Image
                 height={300}
-                width={300}
+                width={400}
                 src={data?.profilePhoto}
                 alt="User Photo"
               />
             </Box>
-            {updating ? (
-              <div>Uploading...</div>
-            ) : (
-              <AutoFileUploader
-                name="file"
-                label="Upload YOur Profile Photo"
-                icon={<CloudUploadIcon />}
-                onFileUpload={fileupUploadHandler}
-                variant="text"
-              />
-            )}
+            <Box my={3}>
+              {updating ? (
+                <p>Uploading...</p>
+              ) : (
+                <AutoFileUploader
+                  name="file"
+                  label="Choose Your Profile Photo"
+                  icon={<CloudUploadIcon />}
+                  onFileUpload={fileUploadHandler}
+                  variant="text"
+                />
+              )}
+            </Box>
+
             <Button
               fullWidth
-              endIcon={<EditIcon />}
+              endIcon={<ModeEditIcon />}
               onClick={() => setIsModalOpen(true)}
             >
               Edit Profile

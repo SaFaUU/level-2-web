@@ -23,14 +23,10 @@ const DoctorSchedulesPage = () => {
 
   const [allSchedule, setAllSchedule] = useState<any>([]);
   const { data, isLoading } = useGetAllDoctorSchedulesQuery({ ...query });
-  console.log(data);
 
   const schedules = data?.doctorSchedules?.data;
-  console.log(schedules);
-  const meta = data?.doctorSchedules?.meta;
-  console.log(meta);
 
-  console.log({ schedules });
+  const meta = data?.doctorSchedules?.meta;
 
   let pageCount: number;
 
@@ -44,7 +40,6 @@ const DoctorSchedulesPage = () => {
 
   useEffect(() => {
     const updateData = schedules?.map((schedule: ISchedule, index: number) => {
-      console.log(schedule);
       return {
         id: schedule?.scheduleId,
         startDate: dateFormatter(schedule?.schedule?.startDateTime),
@@ -99,7 +94,7 @@ const DoctorSchedulesPage = () => {
                   return (
                     <Box
                       sx={{
-                        mb: 2,
+                        my: 2,
                         display: "flex",
                         justifyContent: "center",
                       }}

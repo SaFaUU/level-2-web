@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import assets from "@/assets";
 import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
@@ -38,7 +38,7 @@ const LoginPage = () => {
       if (res.success) {
         storeUserInfo(res.data.accessToken);
         toast.success(res.message);
-        router.push("/dashboard");
+        // router.push("/dashboard");
       } else {
         setError(res.message);
         toast.error(res.message);
