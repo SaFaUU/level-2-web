@@ -47,7 +47,12 @@ const validationSchema = z.object({
 const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
   const { data: doctorData, refetch, isSuccess } = useGetDoctorQuery(id);
   const { data: allSpecialties } = useGetAllSpecialtysQuery(undefined);
-  const [selectedSpecialtiesIds, setSelectedSpecialtiesIds] = useState([]);
+  console.log(allSpecialties);
+
+  const [selectedSpecialtiesIds, setSelectedSpecialtiesIds] = React.useState(
+    []
+  );
+  console.log(selectedSpecialtiesIds);
 
   const [updateDoctor, { isLoading: updating }] = useUpdateDoctorMutation();
 
@@ -198,7 +203,9 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
           <Grid item xs={12} sm={12} md={4}>
             <MultipleSelectChip
               allSpecialties={allSpecialties}
-              selectedIds={selectedSpecialtiesIds}
+              selectedIds={
+                !!selectedSpecialtiesIds ? selectedSpecialtiesIds : []
+              }
               setSelectedIds={setSelectedSpecialtiesIds}
             />
           </Grid>

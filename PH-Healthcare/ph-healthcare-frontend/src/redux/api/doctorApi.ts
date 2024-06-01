@@ -59,7 +59,7 @@ export const doctorApi = baseApi.injectEndpoints({
           },
         };
       },
-      invalidatesTags: [tagTypes.doctor],
+      invalidatesTags: [tagTypes.doctor, tagTypes.user],
     }),
   }),
 });
