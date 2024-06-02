@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 import assets from "@/assets";
 import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
