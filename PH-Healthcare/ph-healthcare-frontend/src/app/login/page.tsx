@@ -34,7 +34,7 @@ const LoginPage = () => {
   const handleLogin = async (values: FieldValues) => {
     try {
       const res = await userLogin(values);
-      console.log(res);
+
       if (res.success) {
         storeUserInfo(res.data.accessToken);
         toast.success(res.message);
@@ -43,9 +43,7 @@ const LoginPage = () => {
         setError(res.message);
         toast.error(res.message);
       }
-    } catch (err: any) {
-      console.log(err.message);
-    }
+    } catch (err: any) {}
   };
 
   return (
@@ -110,14 +108,22 @@ const LoginPage = () => {
                   />
                 </Grid>
               </Grid>
-              <Typography
-                component="p"
-                fontWeight={300}
-                textAlign={"end"}
-                mt={2}
-              >
-                Forgot Password?
-              </Typography>
+              <Link href="/forgot-password">
+                <Typography
+                  component="p"
+                  fontWeight={300}
+                  textAlign={"end"}
+                  mt={2}
+                  sx={{
+                    cursor: "pointer",
+                    ":hover": {
+                      textDecoration: "underline",
+                    },
+                  }}
+                >
+                  Forgot Password?
+                </Typography>
+              </Link>
               <Button
                 fullWidth
                 sx={{

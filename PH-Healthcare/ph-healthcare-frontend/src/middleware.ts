@@ -19,7 +19,6 @@ type Role = keyof typeof roleBasedPrivateRoutes;
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const accessToken = cookies().get("accessToken")?.value;
-  console.log(accessToken);
 
   if (!accessToken) {
     if (authRoutes.includes(pathname)) {

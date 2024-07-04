@@ -78,15 +78,13 @@ const RegisterPage = () => {
           email: values.patient.email,
           password: values.password,
         });
-        console.log(userResponse);
+
         if (userResponse.success) {
           storeUserInfo(userResponse.data.accessToken);
           router.push("/dashboard");
         }
       }
-    } catch (err: any) {
-      console.log(err.message);
-    }
+    } catch (err: any) {}
   };
 
   return (

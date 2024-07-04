@@ -17,7 +17,7 @@ instance.interceptors.request.use(
     const accessToken = getFromLocalStorage(authKey);
 
     if (accessToken) {
-      config.headers["Authorization"] = `${accessToken}`;
+      config.headers.Authorization = accessToken;
     }
     return config;
   },
@@ -42,26 +42,23 @@ instance.interceptors.response.use(
   async function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-
+    // console.log(error);
     const config = error.config;
-
+    // console.log(config);
     if (error?.response?.status === 500 && !config.sent) {
       config.sent = true;
       const response = await getNewAccessToken();
-
       const accessToken = response?.data?.accessToken;
-      config.headers["Authorization"] = `${accessToken}`;
+      config.headers["Authorization"] = accessToken;
       setToLocalStorage(authKey, accessToken);
       setAccessToken(accessToken);
       return instance(config);
     } else {
-      // @ts-ignore
       const responseObject: IGenericErrorResponse = {
         statusCode: error?.response?.data?.statusCode || 500,
-        message: error?.response?.data?.message || "Something went wrong",
+        message: error?.response?.data?.message || "Something went wrong!!!",
         errorMessages: error?.response?.data?.message,
       };
-
       // return Promise.reject(error);
       return responseObject;
     }
