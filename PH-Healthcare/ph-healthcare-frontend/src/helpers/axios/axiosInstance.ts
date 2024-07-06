@@ -45,7 +45,7 @@ instance.interceptors.response.use(
     // console.log(error);
     const config = error.config;
     // console.log(config);
-    if (error?.response?.status === 500 && !config.sent) {
+    if (error?.response?.status === 501 && !config.sent) {
       config.sent = true;
       const response = await getNewAccessToken();
       const accessToken = response?.data?.accessToken;

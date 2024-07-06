@@ -80,7 +80,7 @@ const ForgotPassword = () => {
             defaultValues={{ email: "" }}
             resolver={zodResolver(validationSchema)}
           >
-            <Grid>
+            <Grid container>
               <Grid item xs={12} sm={12} md={6}>
                 <PHInput
                   name="email"

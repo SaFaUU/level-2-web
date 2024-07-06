@@ -7,9 +7,12 @@ import { authKey } from "@/constants/authKey";
 const useUserInfo = (): any | string => {
   const [userInfo, setUserInfo] = useState<any | string>("");
 
+  console.log(userInfo);
+
   useEffect(() => {
     const fetchUserInfo = () => {
       const authToken = getFromLocalStorage(authKey);
+      console.log(authToken);
       if (authToken) {
         const decodedData: JwtPayload & { role: any } = decodedToken(
           authToken

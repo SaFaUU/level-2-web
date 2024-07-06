@@ -43,8 +43,6 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
 
   const doctorSchedules = data?.doctorSchedules;
 
-  console.log(doctorSchedules);
-
   const currentDate = new Date();
   const today = currentDate.toLocaleDateString("en-US", { weekday: "long" });
 
@@ -102,9 +100,7 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
           }
         }
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (
@@ -122,11 +118,11 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
             isLoading ? (
               "Loading..."
             ) : (
-              availableSlots?.map((doctorSchedule: DoctorSchedule) => {
+              availableSlots?.map((doctorSchedule: any) => {
                 const formattedTimeSlot = `${getTimeIn12HourFormat(
-                  doctorSchedule?.schedule?.startDate
+                  doctorSchedule?.schedule?.startDateTime
                 )} - ${getTimeIn12HourFormat(
-                  doctorSchedule?.schedule?.endDate
+                  doctorSchedule?.schedule?.endDateTime
                 )}`;
 
                 return (
@@ -151,22 +147,22 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
             </span>
           )}
         </Stack>
-        <Typography variant="h6" fontSize={16} mt={5}>
+        {/* <Typography variant="h6" fontSize={16} mt={5}>
           <b>
             Tomorrow: {dateFormatter(nextDate.toISOString()) + " " + tomorrow}
           </b>
-        </Typography>
-        <Box sx={{ borderBottom: "2px dashed #d0d0d0", mt: 2, mb: 3 }} />
+        </Typography> */}
+        {/* <Box sx={{ borderBottom: "2px dashed #d0d0d0", mt: 2, mb: 3 }} />
         <Stack direction="row" alignItems="center" flexWrap="wrap" gap={2}>
           {availableNextDaySlots?.length ? (
             isLoading ? (
               "Loading..."
             ) : (
-              availableNextDaySlots?.map((doctorSchedule: DoctorSchedule) => {
+              availableNextDaySlots?.map((doctorSchedule: any) => {
                 const formattedTimeSlot = `${getTimeIn12HourFormat(
-                  doctorSchedule?.schedule?.startDate
+                  doctorSchedule?.schedule?.startDateTime
                 )} - ${getTimeIn12HourFormat(
-                  doctorSchedule?.schedule?.endDate
+                  doctorSchedule?.schedule?.endDateTime
                 )}`;
 
                 return (
@@ -190,7 +186,7 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
               No Schedule is Available Today!
             </span>
           )}
-        </Stack>
+        </Stack> */}
       </Box>
 
       <Button

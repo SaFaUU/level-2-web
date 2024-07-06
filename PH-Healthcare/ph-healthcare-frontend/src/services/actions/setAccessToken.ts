@@ -7,7 +7,7 @@ const setAccessToken = (token: string, option?: any) => {
   if (token) {
     cookies().set({
       name: authKey,
-      value: token,
+      value: token || "",
     });
 
     if (option && option.redirect) {

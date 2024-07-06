@@ -27,105 +27,108 @@ const HowItWorks = () => {
           top-quality surgery facilities right here
         </Typography>
       </Box>
-      <Grid
-        md={2}
-        display={"flex"}
-        justifyContent={"space-between"}
-        alignItems={"center"}
-        my={5}
-        width={"100%"}
-      >
-        <Box sx={{ width: "50%" }}>
-          <Image src={assets.images.howItWorks} alt="grid" />
-        </Box>
-        <Box sx={{ width: "50%" }}>
-          <Grid container spacing={2}>
-            <Grid item md={6}>
-              <Box
-                sx={{
-                  textAlign: "start",
-                  border: "1px solid rgba(20, 20, 20, 0.1)",
-                  padding: "15px",
-                  borderRadius: "10px",
-                }}
-              >
-                <Stack>
-                  <Image src={searchIcon} alt="grid" />
-                  <Typography variant="h6" component={"h1"} my={2}>
-                    Search Doctor
-                  </Typography>
-                  <Typography component={"p"} fontWeight={400}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quisquam dolores aliquid voluptas.
-                  </Typography>
-                </Stack>
-              </Box>
+      <Grid container>
+        <Grid
+          item
+          md={2}
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          my={5}
+          width={"100%"}
+        >
+          <Box sx={{ width: "50%" }}>
+            <Image src={assets.images.howItWorks} alt="grid" />
+          </Box>
+          <Box sx={{ width: "50%" }}>
+            <Grid container spacing={2}>
+              <Grid item md={6}>
+                <Box
+                  sx={{
+                    textAlign: "start",
+                    border: "1px solid rgba(20, 20, 20, 0.1)",
+                    padding: "15px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Stack>
+                    <Image src={searchIcon} alt="grid" />
+                    <Typography variant="h6" component={"h1"} my={2}>
+                      Search Doctor
+                    </Typography>
+                    <Typography component={"p"} fontWeight={400}>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Quisquam dolores aliquid voluptas.
+                    </Typography>
+                  </Stack>
+                </Box>
+              </Grid>
+              <Grid item md={6}>
+                <Box
+                  sx={{
+                    textAlign: "start",
+                    border: "1px solid rgba(20, 20, 20, 0.1)",
+                    padding: "15px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Stack>
+                    <Image src={searchIcon} alt="grid" />
+                    <Typography variant="h6" component={"h1"} my={2}>
+                      Search Doctor
+                    </Typography>
+                    <Typography component={"p"} fontWeight={400}>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Quisquam dolores aliquid voluptas.
+                    </Typography>
+                  </Stack>
+                </Box>
+              </Grid>
+              <Grid item md={6}>
+                <Box
+                  sx={{
+                    textAlign: "start",
+                    border: "1px solid rgba(20, 20, 20, 0.1)",
+                    padding: "15px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Stack>
+                    <Image src={searchIcon} alt="grid" />
+                    <Typography variant="h6" component={"h1"} my={2}>
+                      Search Doctor
+                    </Typography>
+                    <Typography component={"p"} fontWeight={400}>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Quisquam dolores aliquid voluptas.
+                    </Typography>
+                  </Stack>
+                </Box>
+              </Grid>
+              <Grid item md={6}>
+                <Box
+                  sx={{
+                    textAlign: "start",
+                    border: "1px solid rgba(20, 20, 20, 0.1)",
+                    padding: "15px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Stack>
+                    <Image src={searchIcon} alt="grid" />
+                    <Typography variant="h6" component={"h1"} my={2}>
+                      Search Doctor
+                    </Typography>
+                    <Typography component={"p"} fontWeight={400}>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Quisquam dolores aliquid voluptas.
+                    </Typography>
+                  </Stack>
+                </Box>
+              </Grid>
             </Grid>
-            <Grid item md={6}>
-              <Box
-                sx={{
-                  textAlign: "start",
-                  border: "1px solid rgba(20, 20, 20, 0.1)",
-                  padding: "15px",
-                  borderRadius: "10px",
-                }}
-              >
-                <Stack>
-                  <Image src={searchIcon} alt="grid" />
-                  <Typography variant="h6" component={"h1"} my={2}>
-                    Search Doctor
-                  </Typography>
-                  <Typography component={"p"} fontWeight={400}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quisquam dolores aliquid voluptas.
-                  </Typography>
-                </Stack>
-              </Box>
-            </Grid>
-            <Grid item md={6}>
-              <Box
-                sx={{
-                  textAlign: "start",
-                  border: "1px solid rgba(20, 20, 20, 0.1)",
-                  padding: "15px",
-                  borderRadius: "10px",
-                }}
-              >
-                <Stack>
-                  <Image src={searchIcon} alt="grid" />
-                  <Typography variant="h6" component={"h1"} my={2}>
-                    Search Doctor
-                  </Typography>
-                  <Typography component={"p"} fontWeight={400}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quisquam dolores aliquid voluptas.
-                  </Typography>
-                </Stack>
-              </Box>
-            </Grid>
-            <Grid item md={6}>
-              <Box
-                sx={{
-                  textAlign: "start",
-                  border: "1px solid rgba(20, 20, 20, 0.1)",
-                  padding: "15px",
-                  borderRadius: "10px",
-                }}
-              >
-                <Stack>
-                  <Image src={searchIcon} alt="grid" />
-                  <Typography variant="h6" component={"h1"} my={2}>
-                    Search Doctor
-                  </Typography>
-                  <Typography component={"p"} fontWeight={400}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quisquam dolores aliquid voluptas.
-                  </Typography>
-                </Stack>
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </Grid>
       </Grid>
     </Container>
   );

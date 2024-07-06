@@ -22,7 +22,7 @@ router.delete(
 
 router.get(
   "/",
-  auth(UserRole.SUPER_ADMIN, UserRole.DOCTOR),
+  auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.DOCTOR, UserRole.PATIENT),
   DoctorScheduleController.getAllFromDB
 );
 

@@ -7,8 +7,9 @@ export const setToLocalStorage = (key: string, value: any) => {
 
 export const getFromLocalStorage = (key: string) => {
   if (!key || typeof window === "undefined") {
-    return;
+    return "";
   }
+
   return localStorage.getItem(key);
 };
 
