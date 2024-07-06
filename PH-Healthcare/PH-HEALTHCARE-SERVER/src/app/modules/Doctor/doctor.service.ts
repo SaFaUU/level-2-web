@@ -92,11 +92,18 @@ const getByIDFromDB = async (id: string) => {
     where: {
       id,
     },
+    include: {
+      doctorSpecialties: {
+        include: {
+          specialities: true,
+        },
+      },
+    },
   });
   return result;
 };
 
-const updateIntoDB = async (id: string, data: Partial<Doctor>) => {
+const updateIntoDB = async (id: string, data: any) => {
   const { specialties, ...doctorData } = data;
 
   const doctorInfo = await prisma.doctor.findUniqueOrThrow({

@@ -38,5 +38,5 @@ const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
 export const SpecialtiesController = {
   insertIntoDB,
   getAllFromDB,
-  deleteFromDB
+  deleteFromDB,
 };

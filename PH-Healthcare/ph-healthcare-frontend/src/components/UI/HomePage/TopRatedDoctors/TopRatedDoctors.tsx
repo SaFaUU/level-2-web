@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import React from "react";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Link from "next/link";
 
 const TopRatedDoctors = async () => {
   const res = await fetch(
@@ -90,7 +91,12 @@ const TopRatedDoctors = async () => {
           ))}
         </Grid>
         <Box sx={{ margin: "0 auto", textAlign: "center" }}>
-          <Button variant="outlined" sx={{ mt: 5 }}>
+          <Button
+            variant="outlined"
+            sx={{ mt: 5 }}
+            component={Link}
+            href="/doctors"
+          >
             View All
           </Button>
         </Box>
