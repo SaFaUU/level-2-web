@@ -13,6 +13,8 @@ interface PropTypes {
 const PaymentStatusPage = ({ searchParams }: PropTypes) => {
   const status = searchParams.status; // could be success, cancel, failed
 
+  console.log(status);
+
   let icon;
   let title;
 
@@ -62,7 +64,7 @@ const PaymentStatusPage = ({ searchParams }: PropTypes) => {
           )}
           {status !== "success" && (
             <Button size="small" variant="outlined">
-              <Link href="/doctors">Bok Again</Link>
+              <Link href="/doctors">Try Again</Link>
             </Button>
           )}
         </Stack>

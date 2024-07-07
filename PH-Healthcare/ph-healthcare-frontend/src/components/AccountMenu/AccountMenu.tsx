@@ -51,6 +51,7 @@ export default function AccountMenu() {
     setAnchorEl(null);
   };
   const handleLogout = () => {
+    setAnchorEl(null);
     logoutUser(router);
   };
 
