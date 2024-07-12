@@ -20,11 +20,25 @@ type Mutation {
         password: String!
     ): AuthPayload
     
-    createPost(
-      title: String!
-      content: String!
-      authorId: ID!
-    ): Post
+    addPost(
+      post: PostInput!
+    ): PostPayload
+
+    updatePost(
+      postId: ID!
+      post: PostInput
+    ): PostPayload
+    
+}
+
+input PostInput {
+  title: String
+  content: String
+}
+
+type PostPayload{
+  userError: String
+  post: Post
 }
 
 type AuthPayload {

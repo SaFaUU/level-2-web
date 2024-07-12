@@ -4,6 +4,8 @@ import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
+import { jwtHelper } from "./utils/jwtHelper";
+import { Secret } from "jsonwebtoken";
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
@@ -16,6 +18,9 @@ const prisma = new PrismaClient();
 
 interface Context {
   prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>;
+  userInfo: {
+    userId: number | null;
+  } | null;
 }
 
 const main = async () => {
@@ -25,7 +30,14 @@ const main = async () => {
   //  3. prepares your app to handle incoming requests
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
-    context: async (): Promise<Context> => ({ prisma }),
+    context: async ({ req }): Promise<Context> => {
+      const userInfo = await jwtHelper.getUserInfoFromToken(
+        req.headers.authorization as string
+      );
+
+      console.log(userInfo);
+      return { prisma, userInfo };
+    },
   });
 
   console.log(`🚀  Server ready at: ${url}`);
