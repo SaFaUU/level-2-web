@@ -3,8 +3,8 @@ type Query {
     me: User
     users: [User]
     posts: [Post]
-    profile: Profile
     getSingleUser(id: ID!): Profile
+    profile(userId: ID!): Profile
 }
 
 type Mutation {
@@ -28,6 +28,14 @@ type Mutation {
       postId: ID!
       post: PostInput
     ): PostPayload
+
+    deletePost(
+      postId: ID!
+    ): PostPayload
+
+    publishPost(
+      postId: ID!
+    ): PostPayload
     
 }
 
@@ -44,6 +52,7 @@ type PostPayload{
 type AuthPayload {
   userError: String
   token: String
+  profile: Profile
 }
 
  type Post{
@@ -61,6 +70,7 @@ type AuthPayload {
    email: String!
    createdAt: String!
    posts: [Post]
+   profile: Profile
  }
 
  type Profile{

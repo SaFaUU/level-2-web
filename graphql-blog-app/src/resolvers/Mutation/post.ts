@@ -1,3 +1,5 @@
+import { checkUserAccess } from "../../utils/checkUserAccess";
+
 export const postResolvers = {
   addPost: async (parent: any, args: any, { prisma, userInfo }: any) => {
     if (!userInfo) {
@@ -22,6 +24,7 @@ export const postResolvers = {
       },
     });
 
+    console.log(result);
     return {
       userError: null,
       post: result,
@@ -36,24 +39,10 @@ export const postResolvers = {
       };
     }
 
-    const post = await prisma.post.findUnique({
-      where: {
-        id: Number(args.postId),
-      },
-    });
+    const error = await checkUserAccess(prisma, userInfo.userId, args.postId);
 
-    if (!post) {
-      return {
-        userError: "Post not found",
-        post: null,
-      };
-    }
-
-    if (post.authorId !== userInfo.userId) {
-      return {
-        userError: "Unauthorized",
-        post: null,
-      };
+    if (error) {
+      return error;
     }
 
     const result = await prisma.post.update({
@@ -61,6 +50,61 @@ export const postResolvers = {
         id: Number(args.postId),
       },
       data: args.post,
+    });
+
+    return {
+      userError: null,
+      post: result,
+    };
+  },
+
+  deletePost: async (parent: any, args: any, { prisma, userInfo }: any) => {
+    if (!userInfo) {
+      return {
+        userError: "Unauthorized",
+        post: null,
+      };
+    }
+
+    const error = await checkUserAccess(prisma, userInfo.userId, args.postId);
+
+    if (error) {
+      return error;
+    }
+
+    const result = await prisma.post.delete({
+      where: {
+        id: Number(args.postId),
+      },
+    });
+
+    return {
+      userError: null,
+      post: result,
+    };
+  },
+
+  publishPost: async (parent: any, args: any, { prisma, userInfo }: any) => {
+    if (!userInfo) {
+      return {
+        userError: "Unauthorized",
+        post: null,
+      };
+    }
+
+    const error = await checkUserAccess(prisma, userInfo.userId, args.postId);
+
+    if (error) {
+      return error;
+    }
+
+    const result = await prisma.post.update({
+      where: {
+        id: Number(args.postId),
+      },
+      data: {
+        published: true,
+      },
     });
 
     return {
