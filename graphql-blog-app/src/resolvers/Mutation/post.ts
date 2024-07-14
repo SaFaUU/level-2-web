@@ -24,7 +24,6 @@ export const postResolvers = {
       },
     });
 
-    console.log(result);
     return {
       userError: null,
       post: result,

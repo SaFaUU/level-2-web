@@ -34,13 +34,9 @@ const main = async () => {
       const userInfo = await jwtHelper.getUserInfoFromToken(
         req.headers.authorization as string
       );
-
-      console.log(userInfo);
       return { prisma, userInfo };
     },
   });
-
-  console.log(`🚀  Server ready at: ${url}`);
 };
 
 main();

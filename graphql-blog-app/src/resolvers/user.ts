@@ -1,9 +1,7 @@
 export const User = {
   posts: (parent: any, args: any, { prisma, userInfo }: any) => {
-    console.log("userInfo: ", userInfo);
-    console.log("parent", parent);
     const isMyProfile = parent.id === userInfo.userId;
-    console.log(isMyProfile);
+
     if (isMyProfile) {
       return prisma.post.findMany({
         where: {
@@ -20,10 +18,11 @@ export const User = {
     }
   },
   profile: (parent: any, args: any, { prisma }: any) => {
+    console.log("args: ", args);
     console.log("parent: ", parent);
     return prisma.profile.findUnique({
       where: {
-        userId: parent.id,
+        id: parent.id,
       },
     });
   },

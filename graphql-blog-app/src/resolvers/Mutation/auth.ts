@@ -82,9 +82,16 @@ export const authResolvers = {
       config.jwt.secret as Secret
     );
 
+    const profile = await prisma.profile.findUnique({
+      where: {
+        userId: user.id,
+      },
+    });
+
     return {
       userError: null,
       token,
+      profile,
     };
   },
 };
