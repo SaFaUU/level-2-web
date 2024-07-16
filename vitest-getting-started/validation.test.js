@@ -1,43 +1,49 @@
-import { expect, it } from "vitest";
+import { expect, it, describe } from "vitest";
 import { validateArrayNotEmpty, validateEmail } from "./validation";
 
-it("should validate a correct email address", () => {
-    const email = "kUk7z@example.com";
+describe("validateEmail()", () => {
+    it("should validate a correct email address", () => {
+        const email = "kUk7z@example.com";
 
-    const resultFn = () => {
-        validateEmail(email)
-    };
+        const resultFn = () => {
+            validateEmail(email)
+        };
 
-    expect(resultFn).not.toThrow()
+        expect(resultFn).not.toThrow()
+    })
+
+    it("should throw an error if an incorrect email address is provided", () => {
+        const email = "test.com";
+
+        const resultFn = () => {
+            validateEmail(email)
+        };
+
+        expect(resultFn).toThrow()
+    })
+
+    it("should throw an error if an empty email address is provided", () => {
+        const email = "";
+
+        const resultFn = () => {
+            validateEmail(email)
+        };
+
+        expect(resultFn).toThrow()
+    })
 })
 
-it("should throw an error if an incorrect email address is provided", () => {
-    const email = "test.com";
+describe("validateArrayNotEmpty()", () => {
 
-    const resultFn = () => {
-        validateEmail(email)
-    };
+    it("should validate a non-empty array", () => {
+        const array = [1, 2, 3];
 
-    expect(resultFn).toThrow()
-})
+        const resultFn = () => {
+            validateArrayNotEmpty(array)
+        };
 
-it("should throw an error if an empty email address is provided", () => {
-    const email = "";
+        expect(resultFn).not.toThrow()
+    })
 
-    const resultFn = () => {
-        validateEmail(email)
-    };
-
-    expect(resultFn).toThrow()
-})
-
-it("should validate a non-empty array", () => {
-    const array = [1, 2, 3];
-
-    const resultFn = () => {
-        validateArrayNotEmpty(array)
-    };
-
-    expect(resultFn).not.toThrow()
 })
 
