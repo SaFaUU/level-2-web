@@ -8,9 +8,12 @@ import { promises as fs } from 'fs';
 
 describe('generateToken()', () => {
    it('should execute the logger function if passed', () => {
-      const loggerFn = vi.fn();
+      // const loggerFn = vi.fn();
+      const loggerFn = vi.fn(() => {
 
-      loggerFn.mockImplementationOnce(() => {})
+      });
+
+      loggerFn.mockImplementationOnce(() => { })
 
       generateToken(loggerFn);
 
