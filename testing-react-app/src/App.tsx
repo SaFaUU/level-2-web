@@ -5,6 +5,21 @@ import "./App.css";
 import PrimaryButton from "./components/PrimaryButton";
 import Users from "./components/Users/Users";
 import FruitList from "./components/FruitList/FruitList";
+import UserTable from "./components/UsersTable/UsersTable";
+
+export const users = [
+  { id: 1, name: "John", age: 32 },
+  {
+    id: 2,
+    name: "Jane",
+    age: 25,
+  },
+  {
+    id: 3,
+    name: "Bob",
+    age: 43,
+  },
+];
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,7 +33,8 @@ function App() {
         <PrimaryButton />
         <PrimaryButton actionType="Delete" />
         <Users />
-        <FruitList fruits={fruits} />
+        {/* <FruitList fruits={fruits} /> */}
+        <UserTable users={users} />
       </div>
     </>
   );
