@@ -4,9 +4,12 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import PrimaryButton from "./components/PrimaryButton";
 import Users from "./components/Users/Users";
+import FruitList from "./components/FruitList/FruitList";
 
 function App() {
   const [count, setCount] = useState(0);
+
+  const fruits = ["apple", "banana", "orange", "mango", "pineapple"];
 
   return (
     <>
@@ -15,6 +18,7 @@ function App() {
         <PrimaryButton />
         <PrimaryButton actionType="Delete" />
         <Users />
+        <FruitList fruits={fruits} />
       </div>
     </>
   );

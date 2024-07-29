@@ -8,7 +8,7 @@ interface User {
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>("ph");
   const [email, setEmail] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
 
@@ -35,7 +35,7 @@ const Users = () => {
       <h2>Testing react in h2</h2>
       <p>Enter the form data</p>
 
-      <div data-testId="paragraph">
+      <div data-testid="paragraph">
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
           libero omnis tenetur magnam dolores porro debitis aperiam? Vero vitae
