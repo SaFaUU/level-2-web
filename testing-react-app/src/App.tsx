@@ -6,6 +6,7 @@ import PrimaryButton from "./components/PrimaryButton";
 import Users from "./components/Users/Users";
 import FruitList from "./components/FruitList/FruitList";
 import UserTable from "./components/UsersTable/UsersTable";
+import FormComponent from "./components/Form/Form";
 
 export const users = [
   { id: 1, name: "John", age: 32 },
@@ -35,6 +36,11 @@ function App() {
         <Users />
         {/* <FruitList fruits={fruits} /> */}
         <UserTable users={users} />
+        <FormComponent
+          onSubmit={(data) => {
+            console.log(data);
+          }}
+        />
       </div>
     </>
   );
