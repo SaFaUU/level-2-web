@@ -7,6 +7,7 @@ import Users from "./components/Users/Users";
 import FruitList from "./components/FruitList/FruitList";
 import UserTable from "./components/UsersTable/UsersTable";
 import FormComponent from "./components/Form/Form";
+import Counter from "./components/Counter/Counter";
 
 export const users = [
   { id: 1, name: "John", age: 32 },
@@ -41,6 +42,7 @@ function App() {
             console.log(data);
           }}
         />
+        <Counter />
       </div>
     </>
   );
