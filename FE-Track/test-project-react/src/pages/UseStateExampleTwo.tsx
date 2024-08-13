@@ -15,6 +15,16 @@ const UseStateExampleTwo = () => {
     console.log({ user });
   };
 
+  //   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //     // setName(e.target.value);
+  //     setUser({ ...user, name: e.target.value });
+  //   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  };
+
   return (
     <form
       className="flex gap-4 flex-col align-middle justify-center w-full h-screen items-center"
@@ -26,7 +36,8 @@ const UseStateExampleTwo = () => {
         id="name"
         className="input input-bordered input-primary w-full max-w-xs"
         // onChange={(e) => setName(e.target.value)}
-        onChange={(e) => setUser({ ...user, name: e.target.value })}
+        // onChange={(e) => setUser({ ...user, name: e.target.value })}
+        onChange={handleChange}
       ></input>
       <input
         type="text"
@@ -34,7 +45,8 @@ const UseStateExampleTwo = () => {
         id="email"
         className="input input-bordered input-primary w-full max-w-xs"
         // onChange={(e) => setEmail(e.target.value)}
-        onChange={(e) => setUser({ ...user, email: e.target.value })}
+        // onChange={(e) => setUser({ ...user, email: e.target.value })}
+        onChange={handleChange}
       ></input>
       <button className="btn btn-primary max-w-xl" type="submit">
         Submit

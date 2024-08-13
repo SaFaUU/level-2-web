@@ -4,6 +4,7 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import UseStateExample from "./pages/UseStateExample";
 import UseStateExampleTwo from "./pages/UseStateExampleTwo";
+import UseReducerExample from "./pages/UseReducerExample";
 
 function App() {
   const [counter, setCounter] = useState(0);
@@ -11,7 +12,8 @@ function App() {
   return (
     <>
       {/* <UseStateExample counter={counter} setCounter={setCounter} /> */}
-      <UseStateExampleTwo />
+      {/* <UseStateExampleTwo /> */}
+      <UseReducerExample />
     </>
   );
 }
