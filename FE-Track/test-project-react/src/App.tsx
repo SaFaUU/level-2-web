@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -9,9 +9,14 @@ import UseReducerForm from "./pages/UseReducerForm";
 import UseEffectExample from "./pages/UseEffectExample";
 import UseRefExample from "./pages/UseRefExample";
 import UseRefForm from "./pages/UseRefForm";
+import ThemeProvider, { ThemeContext } from "./context/ThemeProvider";
+import { MenuItem, MenuList } from "./components/Menu";
 
 function App() {
   const [counter, setCounter] = useState(0);
+
+  const { dark, setDark } = useContext(ThemeContext);
+  console.log(dark);
 
   return (
     <>
@@ -21,7 +26,16 @@ function App() {
       {/* <UseReducerForm /> */}
       {/* <UseEffectExample /> */}
       {/* <UseRefExample /> */}
-      <UseRefForm />
+      {/* <UseRefForm /> */}
+      {/* <button
+        onClick={() => setDark((prev: any) => !prev)}
+        className="btn btn-primary"
+      >
+        Change Theme
+      </button> */}
+      <MenuList>
+        <MenuItem>Menu Item</MenuItem>
+      </MenuList>
     </>
   );
 }
