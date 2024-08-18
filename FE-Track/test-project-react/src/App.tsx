@@ -11,6 +11,7 @@ import UseRefExample from "./pages/UseRefExample";
 import UseRefForm from "./pages/UseRefForm";
 import ThemeProvider, { ThemeContext } from "./context/ThemeProvider";
 import { MenuItem, MenuList } from "./components/Menu";
+import Select from "./components/Select";
 
 function App() {
   const [counter, setCounter] = useState(0);
@@ -33,9 +34,15 @@ function App() {
       >
         Change Theme
       </button> */}
-      <MenuList>
+      {/* <MenuList>
         <MenuItem>Menu Item</MenuItem>
-      </MenuList>
+      </MenuList> */}
+
+      <Select>
+        <Select.SelectionOption value="1">Option 1</Select.SelectionOption>
+        <Select.SelectionOption value="2">Option 2</Select.SelectionOption>
+        <Select.SelectionOption value="3">Option 3</Select.SelectionOption>
+      </Select>
     </>
   );
 }
