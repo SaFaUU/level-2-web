@@ -1,25 +1,28 @@
-import clsx from "clsx";
-import React from "react";
-import { twMerge } from "tailwind-merge";
-import cn from "../utils/cn";
+import Container from "../components/ui/Container";
+
+import { useState } from "react";
+import Modal from "../components/ui/Modal";
+import Button from "../components/ui/Button";
 
 const Home = () => {
+  const [modal, setModal] = useState(false);
+
+  const handleModalClose = () => {
+    setModal((prev) => !prev);
+  };
+
   return (
-    <div>
-      <button
-        className={cn(
-          "btn btn-primary",
-          {
-            "btn-disabled": false,
-            "btn-success": true,
-          },
-          "btn-warning"
-        )}
-      >
+    <Container>
+      <Modal isOpen={modal} onClose={handleModalClose}>
+        <div className="w-full max-w-2xl mx-auto bg-white">
+          <h1>This is a modal</h1>
+        </div>
+      </Modal>
+      <Button variant="solid" className="" onClick={handleModalClose}>
         {" "}
-        Home{" "}
-      </button>
-    </div>
+        Open Modal
+      </Button>
+    </Container>
   );
 };
 
