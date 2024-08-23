@@ -11,12 +11,22 @@ const Home = () => {
     setModal((prev) => !prev);
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setModal((prev) => !prev);
+  };
+
   return (
     <Container>
       <Modal isOpen={modal} onClose={handleModalClose}>
-        <div className="w-full max-w-2xl mx-auto bg-white">
-          <h1>This is a modal</h1>
-        </div>
+        <Modal.Header>
+          <h1>This is a Header Title</h1>
+          <Modal.CloseButton />
+        </Modal.Header>
+        <form onSubmit={handleSubmit}>
+          <input type="text" placeholder="Enter your name" />
+          <button type="submit">Submit</button>
+        </form>
       </Modal>
       <Button variant="solid" className="" onClick={handleModalClose}>
         {" "}
