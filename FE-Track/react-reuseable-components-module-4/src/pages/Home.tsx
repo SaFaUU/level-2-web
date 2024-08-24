@@ -3,6 +3,7 @@ import Container from "../components/ui/Container";
 import { useState } from "react";
 import Modal from "../components/ui/Modal";
 import Button from "../components/ui/Button";
+import NormalForm from "../components/NormalForm/NormalForm";
 
 const Home = () => {
   const [modal, setModal] = useState(false);
@@ -18,7 +19,7 @@ const Home = () => {
 
   return (
     <Container>
-      <Modal isOpen={modal} onClose={handleModalClose}>
+      {/* <Modal isOpen={modal} onClose={handleModalClose}>
         <Modal.Header>
           <h1>This is a Header Title</h1>
           <Modal.CloseButton />
@@ -31,7 +32,9 @@ const Home = () => {
       <Button variant="solid" className="" onClick={handleModalClose}>
         {" "}
         Open Modal
-      </Button>
+      </Button> */}
+
+      <NormalForm />
     </Container>
   );
 };
