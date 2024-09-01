@@ -1,7 +1,11 @@
 import "./App.css";
+import AnimateHook from "./pages/AnimateHook";
 import AnimationControls from "./pages/AnimationControls";
+import AnimationControls2 from "./pages/AnimationControls 2";
 import Drag from "./pages/Drag";
 import Hover from "./pages/Hover";
+import InView from "./pages/InView";
+import InView2 from "./pages/InView2";
 import Keyframe from "./pages/Keyframe";
 import Lessor1 from "./pages/Lessor1";
 
@@ -10,18 +14,20 @@ function App() {
   const nameArr = name.split("");
 
   return (
-    <div className="main">
-      {/* <div className="box"></div> */}
-      {/* {/* <div className="box-1"></div> */}
-      {/* <div className="box-2"></div> */}
-      {/* <h1>Something Cool</h1> */}
-      {/* <button className="btn">Hover me</button> */}
+    <div>
+      {/* <div className="h-screen w-screen bg-red-500"></div> */}
+      <div className="main h-screen w-screen flex flex-col justify-center items-center">
+        {/* <div className="box"></div> */}
+        {/* {/* <div className="box-1"></div> */}
+        {/* <div className="box-2"></div> */}
+        {/* <h1>Something Cool</h1> */}
+        {/* <button className="btn">Hover me</button> */}
 
-      {/* <div className="loading">
+        {/* <div className="loading">
         <div className="glass"></div>
         <div className="box"></div>
       </div> */}
-      {/* <div className="card">
+        {/* <div className="card">
         <h1>Heading</h1>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
@@ -29,7 +35,7 @@ function App() {
           impedit earum, optio, dolore sed, itaque autem reprehenderit quo sunt!
         </p>
       </div> */}
-      {/* <div className="container">
+        {/* <div className="container">
         {nameArr.map((char, index) => (
           <span
             key={index}
@@ -40,11 +46,17 @@ function App() {
           </span>
         ))}
       </div> */}
-      {/* <Lessor1 /> */}
-      {/* <Hover /> */}
-      {/* <Drag /> */}
-      {/* <Keyframe /> */}
-      <AnimationControls />
+        {/* <Lessor1 /> */}
+        {/* <Hover /> */}
+        {/* <Drag /> */}
+        {/* <Keyframe /> */}
+        {/* <AnimationControls /> */}
+        {/* <AnimationControls2 /> */}
+
+        {/* <InView /> */}
+        {/* <InView2 /> */}
+        <AnimateHook />
+      </div>
     </div>
   );
 }
