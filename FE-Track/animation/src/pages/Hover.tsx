@@ -20,6 +20,12 @@ const parent = {
       staggerChildren: 0.5,
     },
   },
+  hover: {
+    scale: 1.1,
+  },
+  tap: {
+    scale: 0.9,
+  },
 };
 
 const child = {
@@ -35,7 +41,7 @@ const child = {
   },
 };
 
-const Lessor1 = () => {
+const Hover = () => {
   return (
     <div className="h-screen flex items-center justify-center align-middle p-4 gap-10">
       <motion.div
@@ -43,6 +49,13 @@ const Lessor1 = () => {
         variants={parent}
         initial="intitial"
         animate="animate"
+        whileHover="hover"
+        whileTap="tap"
+        transition={{
+          type: "spring",
+          stiffness: 400,
+          damping: 10,
+        }}
       >
         <motion.div
           className="size-10 bg-red-500 rounded-lg"
@@ -65,4 +78,4 @@ const Lessor1 = () => {
   );
 };
 
-export default Lessor1;
+export default Hover;

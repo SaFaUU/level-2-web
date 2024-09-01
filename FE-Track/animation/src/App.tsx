@@ -1,4 +1,8 @@
 import "./App.css";
+import AnimationControls from "./pages/AnimationControls";
+import Drag from "./pages/Drag";
+import Hover from "./pages/Hover";
+import Keyframe from "./pages/Keyframe";
 import Lessor1 from "./pages/Lessor1";
 
 function App() {
@@ -36,7 +40,11 @@ function App() {
           </span>
         ))}
       </div> */}
-      <Lessor1 />
+      {/* <Lessor1 /> */}
+      {/* <Hover /> */}
+      {/* <Drag /> */}
+      {/* <Keyframe /> */}
+      <AnimationControls />
     </div>
   );
 }
