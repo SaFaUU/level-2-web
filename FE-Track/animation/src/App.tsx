@@ -8,6 +8,9 @@ import InView from "./pages/InView";
 import InView2 from "./pages/InView2";
 import Keyframe from "./pages/Keyframe";
 import Lessor1 from "./pages/Lessor1";
+import MotionValues from "./pages/MotionValues";
+import ScrollHook from "./pages/ScrollHook";
+import TransformHook from "./pages/TransformHook";
 
 function App() {
   const name = "Programming Hero";
@@ -15,7 +18,8 @@ function App() {
 
   return (
     <div>
-      {/* <div className="h-screen w-screen bg-red-500"></div> */}
+      <div className="h-screen w-screen bg-red-500"></div>
+      <div className="h-screen w-screen bg-red-500"></div>
       <div className="main h-screen w-screen flex flex-col justify-center items-center">
         {/* <div className="box"></div> */}
         {/* {/* <div className="box-1"></div> */}
@@ -55,7 +59,10 @@ function App() {
 
         {/* <InView /> */}
         {/* <InView2 /> */}
-        <AnimateHook />
+        {/* <AnimateHook /> */}
+        {/* <TransformHook /> */}
+        {/* <MotionValues /> */}
+        <ScrollHook />
       </div>
     </div>
   );
