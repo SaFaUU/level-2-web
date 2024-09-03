@@ -2,6 +2,7 @@ import "./App.css";
 import AnimateHook from "./pages/AnimateHook";
 import AnimationControls from "./pages/AnimationControls";
 import AnimationControls2 from "./pages/AnimationControls 2";
+import AnimationPresence from "./pages/AnimationPresence";
 import Drag from "./pages/Drag";
 import Hover from "./pages/Hover";
 import InView from "./pages/InView";
@@ -18,8 +19,8 @@ function App() {
 
   return (
     <div>
-      <div className="h-screen w-screen bg-red-500"></div>
-      <div className="h-screen w-screen bg-red-500"></div>
+      {/* <div className="h-screen w-screen bg-red-500"></div> */}
+      {/* <div className="h-screen w-screen bg-red-500"></div> */}
       <div className="main h-screen w-screen flex flex-col justify-center items-center">
         {/* <div className="box"></div> */}
         {/* {/* <div className="box-1"></div> */}
@@ -62,7 +63,8 @@ function App() {
         {/* <AnimateHook /> */}
         {/* <TransformHook /> */}
         {/* <MotionValues /> */}
-        <ScrollHook />
+        {/* <ScrollHook /> */}
+        <AnimationPresence />
       </div>
     </div>
   );
