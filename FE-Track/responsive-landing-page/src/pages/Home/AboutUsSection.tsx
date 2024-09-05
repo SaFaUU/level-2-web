@@ -1,12 +1,12 @@
 import Container from "@/components/Container";
 import React from "react";
 
-const Home = () => {
+const AboutUsSection = () => {
   return (
     <Container>
-      <h1>This is Home page</h1>
+      <h1>This is a About us section</h1>
     </Container>
   );
 };
 
-export default Home;
+export default AboutUsSection;
